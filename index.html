@@ -168,6 +168,30 @@
   @media (max-width:640px){.extra-grid{grid-template-columns:1fr;}}
   .extra-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
   @media (max-width:640px){.extra-grid-2{grid-template-columns:1fr;}}
+  .section-label.key{
+    display:flex;align-items:center;gap:9px;
+    background:var(--accent-soft);
+    border:1px solid var(--accent);
+    border-radius:8px;
+    padding:.65rem .9rem;
+    color:#7A4A1C;
+    font-weight:700;
+    border-top:1px solid var(--accent);
+  }
+  .section-label.key::before{
+    content:'';
+    width:9px;height:9px;border-radius:50%;
+    background:var(--accent);flex-shrink:0;
+  }
+  .field.field-highlight{
+    background:var(--accent-soft);
+    border:1px solid var(--accent);
+    border-radius:8px;
+    padding:.7rem .8rem .8rem;
+  }
+  .field.field-highlight label{
+    color:#7A4A1C;font-weight:700;
+  }
   .dx-wrap{border:1px solid var(--line-strong);border-radius:8px;padding:14px 16px;background:#FCFCFA;}
   .dx-sub{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);}
   #tabla-contenedor{overflow-x:auto;-webkit-overflow-scrolling:touch;}
@@ -220,7 +244,7 @@
   </div>
   <div class="card">
     <h2 id="form-title">Nuevo registro <span class="tag" id="edit-tag" style="display:none;">editando</span></h2>
-    <div class="section-label">Datos del paciente</div>
+    <div class="section-label key">Datos del paciente</div>
     <div class="grid">
       <div class="field">
         <label>Apellido <span class="req">*</span></label>
@@ -298,7 +322,7 @@
         <textarea id="f_antecedentes_detalle" placeholder="Ej: meniscectomía parcial en 2019, artroscopia diagnóstica en 2021..."></textarea>
       </div>
     </div>
-    <div class="section-label">Diagnóstico</div>
+    <div class="section-label key">Diagnóstico</div>
     <div class="field full">
       <label>Diagnóstico principal <span class="req">*</span></label>
       <div class="dx-wrap" id="dx1-container"></div>
@@ -307,7 +331,7 @@
       <div id="dx-secundarios-container"></div>
       <button type="button" class="btn-ghost" id="btn-agregar-dxsec" style="margin-top:8px;">+ Agregar diagnóstico secundario</button>
     </div>
-    <div class="section-label">Imágenes disponibles</div>
+    <div class="section-label key">Imágenes disponibles</div>
     <div class="grid">
       <div class="field full">
         <div class="checks" id="f_imagenes">
@@ -320,13 +344,13 @@
         </div>
       </div>
     </div>
-    <div class="section-label">Manejo quirúrgico</div>
+    <div class="section-label key">Manejo quirúrgico</div>
     <div class="grid">
       <div class="field full" id="manejo-wrap">
         <label>Manejo específico <span style="font-weight:400;color:var(--ink-soft);">(diagnóstico principal — se despliega según la categoría elegida)</span></label>
         <div id="manejo-dx1-container"></div>
       </div>
-      <div class="field">
+      <div class="field field-highlight">
         <label>Cirujano responsable</label>
         <select id="f_cirujano">
           <option value="">Seleccionar</option>
@@ -371,7 +395,7 @@
         <button type="button" class="btn-ghost" id="btn-agregar-cirugia" style="margin-top:8px;">+ Agregar otra cirugía</button>
       </div>
     </div>
-    <div class="section-label">Seguimiento</div>
+    <div class="section-label key">Seguimiento</div>
     <div class="grid">
       <div class="field">
         <label>Fecha de próximo control</label>
