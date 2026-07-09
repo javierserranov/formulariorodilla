@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Registro post-operatorio · Rodilla</title>
 <style>
   :root{
@@ -169,6 +170,37 @@
   @media (max-width:640px){.extra-grid-2{grid-template-columns:1fr;}}
   .dx-wrap{border:1px solid var(--line-strong);border-radius:8px;padding:14px 16px;background:#FCFCFA;}
   .dx-sub{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);}
+  #tabla-contenedor{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  @media (max-width:640px){
+    body{-webkit-text-size-adjust:100%;}
+    .wrap{padding:0 .75rem 2.5rem;}
+    .header{padding:1.1rem 1.1rem;border-radius:12px;gap:.65rem;}
+    .header svg{width:32px;height:32px;flex-shrink:0;}
+    .header h1{font-size:1.1rem;}
+    .header p{font-size:.76rem;}
+    .card{padding:1.1rem 1rem;margin-bottom:1rem;border-radius:8px;}
+    .card h2{font-size:.95rem;}
+    .section-label{font-size:.85rem;margin:1.2rem 0 .7rem;padding-top:1rem;}
+    input[type=text],input[type=number],input[type=date],select,textarea{
+      font-size:16px;padding:10px 11px;
+    }
+    .actions{flex-wrap:wrap;}
+    .actions button{flex:1 1 auto;text-align:center;}
+    .actions .save-msg{flex:1 1 100%;text-align:center;}
+    .toolbar{gap:8px;}
+    .toolbar input[type=text]{max-width:none;flex:1 1 100%;}
+    .toolbar .count{margin-left:0;flex:1 1 100%;}
+    table{min-width:680px;font-size:.82rem;}
+    th,td{padding:8px;}
+    .row-actions{flex-wrap:wrap;gap:4px;}
+    .dx-wrap{padding:12px;}
+    .extra-grid,.extra-grid-2{gap:8px;}
+    .block-box{padding:12px;}
+  }
+  @media (max-width:400px){
+    .header h1{font-size:1rem;}
+    .header p{display:none;}
+  }
 </style>
 </head>
 <body>
