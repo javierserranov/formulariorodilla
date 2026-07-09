@@ -1,0 +1,2230 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Registro post-operatorio · Rodilla</title>
+<style>
+  :root{
+    --bg:#F5F6F2;
+    --surface:#FFFFFF;
+    --ink:#16211D;
+    --ink-soft:#5B6560;
+    --line:#DCDED6;
+    --line-strong:#C3C7BC;
+    --brand:#234E45;
+    --brand-dark:#152F2A;
+    --accent:#C1752F;
+    --accent-soft:#F4E3CE;
+    --danger:#A83A2E;
+    --danger-soft:#F6DEDA;
+    --radius:10px;
+    --font-display:'Space Grotesk',system-ui,sans-serif;
+    --font-body:'Inter',system-ui,sans-serif;
+    --font-mono:'IBM Plex Mono',monospace;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-body);}
+  .wrap{max-width:960px;margin:0 auto;padding:0 0 3rem;}
+  .header{
+    background:var(--brand);
+    color:#F2F0E8;
+    padding:1.75rem 2rem;
+    border-radius:14px;
+    display:flex;
+    align-items:center;
+    gap:1rem;
+    margin-bottom:1.5rem;
+  }
+  .header svg{flex-shrink:0;}
+  .header h1{
+    font-family:var(--font-display);
+    font-size:1.4rem;
+    font-weight:500;
+    margin:0 0 2px;
+    letter-spacing:.2px;
+  }
+  .header p{
+    margin:0;
+    font-size:.85rem;
+    color:#C8D8D0;
+  }
+  .card{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:1.5rem 1.75rem;
+    margin-bottom:1.5rem;
+  }
+  .card h2{
+    font-family:var(--font-display);
+    font-size:1rem;
+    font-weight:500;
+    margin:0 0 1.1rem;
+    color:var(--brand-dark);
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .card h2 .tag{
+    font-family:var(--font-mono);
+    font-size:.68rem;
+    color:var(--accent);
+    background:var(--accent-soft);
+    padding:2px 7px;
+    border-radius:5px;
+    font-weight:400;
+  }
+  .section-label{
+    font-family:var(--font-display);
+    font-size:.9rem;
+    font-weight:500;
+    color:var(--brand-dark);
+    margin:1.6rem 0 .8rem;
+    padding-top:1.2rem;
+    border-top:1px solid var(--line);
+  }
+  .section-label:first-child{margin-top:0;padding-top:0;border-top:none;}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem 1.25rem;}
+  .grid .full{grid-column:1/-1;}
+  @media (max-width:640px){.grid{grid-template-columns:1fr;}}
+  label{
+    display:block;
+    font-size:.78rem;
+    color:var(--ink-soft);
+    margin-bottom:5px;
+    font-weight:500;
+  }
+  label .req{color:var(--accent);}
+  input[type=text],input[type=number],input[type=date],select,textarea{
+    width:100%;
+    font-family:var(--font-body);
+    font-size:.92rem;
+    padding:9px 11px;
+    border:1px solid var(--line-strong);
+    border-radius:8px;
+    background:#FCFCFA;
+    color:var(--ink);
+  }
+  input:focus,select:focus,textarea:focus{
+    outline:none;
+    border-color:var(--brand);
+    box-shadow:0 0 0 3px rgba(35,78,69,.12);
+  }
+  textarea{resize:vertical;min-height:64px;font-family:var(--font-body);}
+  .mono-field input{font-family:var(--font-mono);}
+  .field{margin-bottom:0;}
+  .checks{display:flex;flex-wrap:wrap;gap:8px;}
+  .chip{
+    display:flex;align-items:center;gap:6px;
+    border:1px solid var(--line-strong);
+    padding:6px 12px;border-radius:20px;font-size:.82rem;
+    cursor:pointer;background:#FCFCFA;user-select:none;
+  }
+  .chip input{width:auto;margin:0;}
+  .chip.checked{background:var(--accent-soft);border-color:var(--accent);color:#7A4A1C;}
+  .dias-box{
+    display:flex;align-items:center;gap:10px;
+    background:#F1F2EC;border:1px solid var(--line);border-radius:8px;padding:9px 11px;
+  }
+  .dias-box input{border:none;background:transparent;padding:0;font-family:var(--font-mono);font-weight:500;font-size:.95rem;width:70px;}
+  .dias-box span{font-size:.78rem;color:var(--ink-soft);}
+  .actions{display:flex;gap:10px;margin-top:1.4rem;align-items:center;}
+  button{
+    font-family:var(--font-body);font-size:.88rem;font-weight:500;
+    padding:10px 18px;border-radius:8px;border:1px solid transparent;cursor:pointer;
+  }
+  .btn-primary{background:var(--brand);color:#fff;}
+  .btn-primary:hover{background:var(--brand-dark);}
+  .btn-ghost{background:transparent;border-color:var(--line-strong);color:var(--ink);}
+  .btn-ghost:hover{background:#F0F1EC;}
+  .save-msg{font-size:.82rem;color:var(--brand);opacity:0;transition:opacity .25s;}
+  .save-msg.show{opacity:1;}
+  .toolbar{display:flex;gap:10px;align-items:center;margin-bottom:1rem;flex-wrap:wrap;}
+  .toolbar input[type=text]{max-width:280px;}
+  .count{font-size:.8rem;color:var(--ink-soft);margin-left:auto;font-family:var(--font-mono);}
+  table{width:100%;border-collapse:collapse;font-size:.85rem;}
+  th{
+    text-align:left;font-size:.72rem;text-transform:uppercase;letter-spacing:.4px;
+    color:var(--ink-soft);font-weight:500;padding:8px 10px;border-bottom:1px solid var(--line-strong);
+  }
+  td{padding:10px;border-bottom:1px solid var(--line);vertical-align:top;}
+  tr:last-child td{border-bottom:none;}
+  .id-mono{font-family:var(--font-mono);font-size:.82rem;color:var(--ink-soft);}
+  .row-actions{display:flex;gap:6px;}
+  .row-actions button{padding:5px 10px;font-size:.76rem;}
+  .empty{text-align:center;padding:2.5rem 1rem;color:var(--ink-soft);font-size:.88rem;}
+  .badge-side{
+    display:inline-block;font-size:.7rem;font-family:var(--font-mono);
+    background:var(--accent-soft);color:#7A4A1C;padding:2px 8px;border-radius:5px;
+  }
+  .block-box{
+    border:1px solid var(--line);border-radius:8px;padding:12px 14px;
+    margin-top:10px;background:#F9F9F5;position:relative;
+  }
+  .block-box .titulo-extra{font-size:.76rem;color:var(--ink-soft);font-weight:500;margin-bottom:8px;}
+  .block-box .btn-quitar{position:absolute;top:8px;right:8px;padding:3px 9px;font-size:.72rem;}
+  .extra-grid{display:grid;grid-template-columns:1fr 1fr 1.4fr;gap:10px;}
+  @media (max-width:640px){.extra-grid{grid-template-columns:1fr;}}
+  .extra-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  @media (max-width:640px){.extra-grid-2{grid-template-columns:1fr;}}
+  .dx-wrap{border:1px solid var(--line-strong);border-radius:8px;padding:14px 16px;background:#FCFCFA;}
+  .dx-sub{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="header">
+    <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+      <line x1="20" y1="3" x2="18" y2="17" stroke="#F2F0E8" stroke-width="2.4" stroke-linecap="round"/>
+      <line x1="18" y1="17" x2="22" y2="23" stroke="#F2F0E8" stroke-width="2.4" stroke-linecap="round"/>
+      <line x1="22" y1="23" x2="19" y2="37" stroke="#F2F0E8" stroke-width="2.4" stroke-linecap="round"/>
+      <circle cx="18" cy="17" r="2.6" fill="#C1752F"/>
+      <circle cx="22" cy="23" r="2.6" fill="#C1752F"/>
+    </svg>
+    <div>
+      <h1>Registro post-operatorio de rodilla</h1>
+      <p>Ficha clínica para seguimiento de pacientes operados</p>
+    </div>
+  </div>
+  <div class="card">
+    <h2 id="form-title">Nuevo registro <span class="tag" id="edit-tag" style="display:none;">editando</span></h2>
+    <div class="section-label">Datos del paciente</div>
+    <div class="grid">
+      <div class="field">
+        <label>Apellido <span class="req">*</span></label>
+        <input type="text" id="f_apellido" placeholder="Apellido">
+      </div>
+      <div class="field">
+        <label>Nombre <span class="req">*</span></label>
+        <input type="text" id="f_nombre" placeholder="Nombre">
+      </div>
+      <div class="field mono-field">
+        <label>Número de identificación <span class="req">*</span></label>
+        <input type="text" id="f_id" placeholder="RUT / cédula">
+      </div>
+      <div class="field">
+        <label>Edad</label>
+        <input type="number" id="f_edad" min="0" max="120" placeholder="Años">
+      </div>
+      <div class="field">
+        <label>Lado operado</label>
+        <select id="f_lado">
+          <option value="">Seleccionar</option>
+          <option>Izquierdo</option>
+          <option>Derecho</option>
+          <option>Bilateral</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Fecha de la lesión</label>
+        <input type="date" id="f_fecha_lesion">
+      </div>
+      <div class="field">
+        <label>Fecha de cirugía <span class="req">*</span></label>
+        <input type="date" id="f_fecha_cirugia">
+      </div>
+      <div class="field full">
+        <label>Días desde la lesión hasta la cirugía</label>
+        <div class="dias-box">
+          <input type="number" id="f_dias" min="0" placeholder="0">
+          <span>se calcula automáticamente si ingresas ambas fechas; puedes editarlo</span>
+        </div>
+      </div>
+      <div class="field">
+        <label>¿Lesión en acto de servicio?</label>
+        <select id="f_acto_servicio">
+          <option value="">Seleccionar</option>
+          <option value="Sí">Sí</option>
+          <option value="No">No</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Causa de la lesión</label>
+        <select id="f_causa_lesion">
+          <option value="">Seleccionar</option>
+          <option>Deportiva</option>
+          <option>Caída</option>
+          <option>Accidente de tránsito</option>
+          <option>Accidente laboral</option>
+          <option>Agresión</option>
+          <option>Otra</option>
+        </select>
+      </div>
+    </div>
+    <div class="section-label">Antecedentes quirúrgicos</div>
+    <div class="grid">
+      <div class="field">
+        <label>¿Antecedentes quirúrgicos previos en la rodilla?</label>
+        <select id="f_antecedentes_qx">
+          <option value="">Seleccionar</option>
+          <option value="Sí">Sí</option>
+          <option value="No">No</option>
+        </select>
+      </div>
+      <div class="field full" id="antecedentes-detalle-wrap" style="display:none;">
+        <label>Detalle de cirugías previas</label>
+        <textarea id="f_antecedentes_detalle" placeholder="Ej: meniscectomía parcial en 2019, artroscopia diagnóstica en 2021..."></textarea>
+      </div>
+    </div>
+    <div class="section-label">Diagnóstico</div>
+    <div class="field full">
+      <label>Diagnóstico principal <span class="req">*</span></label>
+      <div class="dx-wrap" id="dx1-container"></div>
+    </div>
+    <div class="field full" style="margin-top:10px;">
+      <div id="dx-secundarios-container"></div>
+      <button type="button" class="btn-ghost" id="btn-agregar-dxsec" style="margin-top:8px;">+ Agregar diagnóstico secundario</button>
+    </div>
+    <div class="section-label">Imágenes disponibles</div>
+    <div class="grid">
+      <div class="field full">
+        <div class="checks" id="f_imagenes">
+          <label class="chip"><input type="checkbox" value="Radiografía">Radiografía</label>
+          <label class="chip"><input type="checkbox" value="Rx en stress">Rx en stress</label>
+          <label class="chip"><input type="checkbox" value="Resonancia magnética">Resonancia magnética</label>
+          <label class="chip"><input type="checkbox" value="TAC">TAC</label>
+          <label class="chip"><input type="checkbox" value="Ecografía">Ecografía</label>
+          <label class="chip"><input type="checkbox" value="Ninguna">Ninguna</label>
+        </div>
+      </div>
+    </div>
+    <div class="section-label">Manejo quirúrgico</div>
+    <div class="grid">
+      <div class="field full" id="manejo-wrap">
+        <label>Manejo específico <span style="font-weight:400;color:var(--ink-soft);">(diagnóstico principal — se despliega según la categoría elegida)</span></label>
+        <div id="manejo-dx1-container"></div>
+      </div>
+      <div class="field">
+        <label>Cirujano responsable</label>
+        <select id="f_cirujano">
+          <option value="">Seleccionar</option>
+          <option>Inturias</option>
+          <option>Palma</option>
+          <option>Narváez</option>
+          <option>Serrano</option>
+          <option>Otro</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Ayudante</label>
+        <select id="f_ayudante">
+          <option value="">Seleccionar</option>
+          <option>Inturias</option>
+          <option>Palma</option>
+          <option>Narváez</option>
+          <option>Serrano</option>
+          <option>Otro</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Complicaciones intraoperatorias</label>
+        <select id="f_complicacion">
+          <option value="">Ninguna</option>
+          <option>Fractura iatrogénica</option>
+          <option>Lesión vascular</option>
+          <option>Lesión neurológica</option>
+          <option>Rotura de injerto</option>
+          <option>Sangrado excesivo</option>
+          <option>Conversión a cirugía abierta</option>
+          <option>Otra</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Detalle de la complicación</label>
+        <input type="text" id="f_complicacion_detalle" placeholder="Especificar si corresponde">
+      </div>
+      <div class="field full">
+        <label>Cirugías adicionales <span style="font-weight:400;color:var(--ink-soft);">(opcional, si el paciente tuvo más de una intervención)</span></label>
+        <div id="cirugias-extra"></div>
+        <button type="button" class="btn-ghost" id="btn-agregar-cirugia" style="margin-top:8px;">+ Agregar otra cirugía</button>
+      </div>
+    </div>
+    <div class="section-label">Seguimiento</div>
+    <div class="grid">
+      <div class="field">
+        <label>Fecha de próximo control</label>
+        <input type="date" id="f_control">
+      </div>
+      <div class="field full">
+        <label>Notas / observaciones</label>
+        <textarea id="f_notas" placeholder="Evolución, complicaciones, indicaciones de rehabilitación..."></textarea>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn-primary" id="btn-guardar">Guardar registro</button>
+      <button class="btn-ghost" id="btn-limpiar">Limpiar formulario</button>
+      <span class="save-msg" id="save-msg">Guardado.</span>
+    </div>
+  </div>
+  <div class="card">
+    <h2>Pacientes registrados</h2>
+    <div class="toolbar">
+      <input type="text" id="buscar" placeholder="Buscar por nombre o identificación">
+      <button class="btn-ghost" id="btn-actualizar">Actualizar</button>
+      <button class="btn-ghost" id="btn-exportar">Exportar CSV</button>
+      <span class="count" id="contador">0 pacientes</span>
+    </div>
+    <div id="tabla-contenedor"></div>
+  </div>
+</div>
+<script>
+let pacientes = [];
+let editandoId = null;
+/* ---------- Plantilla de bloque de diagnóstico (reutilizada para principal y secundario) ---------- */
+function plantillaDx(prefix){
+  return `
+    <div class="field">
+      <label>Categoría de diagnóstico</label>
+      <select id="${prefix}_categoria">
+        <option value="">Seleccionar</option>
+        <option>Lesión meniscal</option>
+        <option>Lesión condral</option>
+        <option>Lesión ligamentaria</option>
+        <option>Fractura</option>
+        <option>Lesión tendínea</option>
+        <option>Inestabilidad patelofemoral</option>
+        <option>Artrosis</option>
+        <option>Artritis séptica</option>
+      </select>
+    </div>
+    <div class="dx-sub" data-cat="Lesión meniscal" style="display:none;">
+      <div class="extra-grid-2">
+        <div class="field">
+          <label>Diagnóstico específico</label>
+          <select id="${prefix}_men_especifico">
+            <option value="">Seleccionar</option>
+            <option>Rotura menisco medial</option>
+            <option>Rotura menisco lateral</option>
+            <option>Rotura ambos meniscos</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Tipo de lesión</label>
+          <select id="${prefix}_men_tipo">
+            <option value="">Seleccionar</option>
+            <option>Asa de balde</option>
+            <option>Radial completa</option>
+            <option>Radial parcial</option>
+            <option>Vertical</option>
+            <option>Ramp</option>
+            <option>Raíz</option>
+            <option>Compleja</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Zona de lesión</label>
+          <select id="${prefix}_men_zona">
+            <option value="">Seleccionar</option>
+            <option>Zona blanca-blanca</option>
+            <option>Zona blanca-roja</option>
+            <option>Zona roja-roja</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="dx-sub" data-cat="Lesión condral" style="display:none;">
+      <div id="${prefix}-cond-zonas-lista"></div>
+      <button type="button" class="btn-ghost" onclick="agregarZonaCondral('${prefix}')" style="margin-top:8px;">+ Agregar zona</button>
+    </div>
+    <div class="dx-sub" data-cat="Lesión ligamentaria" style="display:none;">
+      <div class="field">
+        <label>Presentación</label>
+        <select id="${prefix}_lig_presentacion">
+          <option value="">Seleccionar</option>
+          <option>Aislada</option>
+          <option>Asociada</option>
+        </select>
+      </div>
+      <div class="field" id="${prefix}_lig_unico_wrap" style="display:none;margin-top:8px;">
+        <label>Ligamento comprometido</label>
+        <select id="${prefix}_lig_unico">
+          <option value="">Seleccionar</option>
+          <option>LCA</option>
+          <option>LCP</option>
+          <option>EPM</option>
+          <option>EPL</option>
+        </select>
+      </div>
+      <div class="field" id="${prefix}_lig_multi_wrap" style="display:none;margin-top:8px;">
+        <label>Ligamentos comprometidos</label>
+        <div class="checks" id="${prefix}_lig_multi">
+          <label class="chip"><input type="checkbox" value="LCA">LCA</label>
+          <label class="chip"><input type="checkbox" value="LCP">LCP</label>
+          <label class="chip"><input type="checkbox" value="EPM">EPM</label>
+          <label class="chip"><input type="checkbox" value="EPL">EPL</label>
+        </div>
+      </div>
+    </div>
+    <div class="dx-sub" data-cat="Fractura" style="display:none;">
+      <div class="field">
+        <label>Localización</label>
+        <select id="${prefix}_frac_localizacion">
+          <option value="">Seleccionar</option>
+          <option>Fémur diafisiario</option>
+          <option>Fémur distal</option>
+          <option>Patela</option>
+          <option>Tibia proximal</option>
+          <option>Tibia diafisiaria</option>
+        </select>
+      </div>
+      <div class="field" id="${prefix}_frac_schatzker_wrap" style="display:none;margin-top:8px;">
+        <label>Clasificación de Schatzker</label>
+        <select id="${prefix}_frac_schatzker">
+          <option value="">Seleccionar</option>
+          <option>Schatzker I</option>
+          <option>Schatzker II</option>
+          <option>Schatzker III</option>
+          <option>Schatzker IV</option>
+          <option>Schatzker V</option>
+          <option>Schatzker VI</option>
+        </select>
+      </div>
+      <div class="field" id="${prefix}_frac_ao_wrap" style="display:none;margin-top:8px;">
+        <label>Clasificación AO</label>
+        <input type="text" id="${prefix}_frac_ao" placeholder="Ej: 33-A1, 32-B2...">
+      </div>
+    </div>
+    <div class="dx-sub" data-cat="Lesión tendínea" style="display:none;">
+      <div class="field">
+        <label>Diagnóstico específico</label>
+        <select id="${prefix}_tend_especifico">
+          <option value="">Seleccionar</option>
+          <option>Rotura tendón rotuliano</option>
+          <option>Rotura tendón cuadricipital</option>
+        </select>
+      </div>
+    </div>
+    <div class="dx-sub" data-cat="Inestabilidad patelofemoral" style="display:none;">
+      <div class="extra-grid">
+        <div class="field">
+          <label>Altura patelar</label>
+          <select id="${prefix}_pfj_altura">
+            <option value="">Seleccionar</option>
+            <option>Normal</option>
+            <option>Patela alta</option>
+            <option>Patela baja</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Índice TT-TG (mm)</label>
+          <input type="number" id="${prefix}_pfj_ttlg" min="0" placeholder="Ej: 18">
+        </div>
+        <div class="field">
+          <label>TT-TG medido en</label>
+          <select id="${prefix}_pfj_ttlg_metodo">
+            <option value="">Seleccionar</option>
+            <option>RM</option>
+            <option>TAC</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Displasia troclear</label>
+          <select id="${prefix}_pfj_displasia">
+            <option value="">Seleccionar</option>
+            <option>No</option>
+            <option>Tipo A (Dejour)</option>
+            <option>Tipo B (Dejour)</option>
+            <option>Tipo C (Dejour)</option>
+            <option>Tipo D (Dejour)</option>
+          </select>
+        </div>
+      </div>
+      <div class="field" id="${prefix}_pfj_cd_wrap" style="display:none;margin-top:8px;">
+        <label>Valor según Caton-Deschamps (CD)</label>
+        <input type="text" id="${prefix}_pfj_cd" placeholder="Ej: 1.3">
+      </div>
+      <div class="field" style="margin-top:8px;">
+        <label>Detalle adicional <span style="font-weight:400;">opcional</span></label>
+        <input type="text" id="${prefix}_pfj_detalle" placeholder="Ej: luxación recidivante, otros hallazgos">
+      </div>
+    </div>
+    <div class="dx-sub" data-cat="Artrosis" style="display:none;">
+      <div class="field">
+        <label>Compartimento comprometido</label>
+        <select id="${prefix}_artrosis_compartimento">
+          <option value="">Seleccionar</option>
+          <option>Medial</option>
+          <option>Lateral</option>
+          <option>Patelofemoral</option>
+          <option>Tricompartimental</option>
+        </select>
+      </div>
+    </div>
+    <div class="dx-sub" data-cat="Artritis séptica" style="display:none;">
+      <div class="field">
+        <label>Germen aislado <span style="font-weight:400;">opcional</span></label>
+        <input type="text" id="${prefix}_artritis_germen" placeholder="Ej: Staphylococcus aureus">
+      </div>
+    </div>
+  `;
+}
+function actualizarSubbloqueDx(prefix){
+  const cat = document.getElementById(prefix+'_categoria').value;
+  document.querySelectorAll('#'+prefix+'-container .dx-sub').forEach(el=>{
+    el.style.display = (el.dataset.cat === cat) ? 'block' : 'none';
+  });
+}
+function inicializarBloqueDiagnostico(prefix){
+  const catSelect = document.getElementById(prefix+'_categoria');
+  catSelect.addEventListener('change', ()=>{
+    actualizarSubbloqueDx(prefix);
+    actualizarManejo(prefix);
+  });
+  const menTipo = document.getElementById(prefix+'_men_tipo');
+  if(menTipo){
+    menTipo.addEventListener('change', ()=> actualizarManejoMenRaiz(prefix));
+  }
+  const ligPres = document.getElementById(prefix+'_lig_presentacion');
+  if(ligPres){
+    ligPres.addEventListener('change', ()=>{
+      const val = ligPres.value;
+      document.getElementById(prefix+'_lig_unico_wrap').style.display = val==='Aislada' ? 'block':'none';
+      document.getElementById(prefix+'_lig_multi_wrap').style.display = val==='Asociada' ? 'block':'none';
+      renderManejoLigamentario(prefix);
+    });
+  }
+  const ligUnico = document.getElementById(prefix+'_lig_unico');
+  if(ligUnico){
+    ligUnico.addEventListener('change', ()=> renderManejoLigamentario(prefix));
+  }
+  const fracLoc = document.getElementById(prefix+'_frac_localizacion');
+  if(fracLoc){
+    fracLoc.addEventListener('change', ()=>{
+      const esTibiaProx = fracLoc.value === 'Tibia proximal';
+      document.getElementById(prefix+'_frac_schatzker_wrap').style.display = esTibiaProx ? 'block':'none';
+      document.getElementById(prefix+'_frac_ao_wrap').style.display = (fracLoc.value && !esTibiaProx) ? 'block':'none';
+    });
+  }
+  const pfjAltura = document.getElementById(prefix+'_pfj_altura');
+  if(pfjAltura){
+    pfjAltura.addEventListener('change', function(){
+      const wrap = document.getElementById(prefix+'_pfj_cd_wrap');
+      if(wrap) wrap.style.display = this.value==='Patela alta' ? 'block' : 'none';
+    });
+  }
+  document.querySelectorAll('#'+prefix+'_lig_multi .chip').forEach(chip=>{
+    const input = chip.querySelector('input');
+    input.addEventListener('change', ()=>{
+      chip.classList.toggle('checked', input.checked);
+      renderManejoLigamentario(prefix);
+    });
+  });
+  if(document.getElementById(prefix+'-cond-zonas-lista') && contarZonasCondrales(prefix)===0){
+    agregarZonaCondral(prefix);
+  }
+}
+/* ---------- Zonas de lesión condral (repetibles) ---------- */
+function plantillaCondZonaUnitaria(prefix, uid){
+  return `
+    <div class="block-box cond-zona-block" data-uid="${uid}" style="margin-top:8px;">
+      <button type="button" class="btn-ghost btn-quitar" onclick="quitarZonaCondral('${prefix}','${uid}')">Quitar</button>
+      <div class="extra-grid">
+        <div class="field">
+          <label>Zona de lesión</label>
+          <select class="cond-zona-select" id="${prefix}_cond_zona_${uid}">
+            <option value="">Seleccionar</option>
+            <option>Cóndilo femoral medial</option>
+            <option>Cóndilo femoral lateral</option>
+            <option>Platillo medial</option>
+            <option>Platillo lateral</option>
+            <option>Tróclea</option>
+            <option>Rótula</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Grado (Outerbridge) <span style="font-weight:400;">opcional</span></label>
+          <select class="cond-grado-select" id="${prefix}_cond_grado_${uid}">
+            <option value="">Seleccionar</option>
+            <option>Grado I</option>
+            <option>Grado II</option>
+            <option>Grado III</option>
+            <option>Grado IV</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Diámetro <span style="font-weight:400;">opcional</span></label>
+          <input type="text" class="cond-diametro-input" id="${prefix}_cond_diametro_${uid}" placeholder="Ej: 10 x 8 mm">
+        </div>
+      </div>
+    </div>
+  `;
+}
+function contarZonasCondrales(prefix){
+  const cont = document.getElementById(prefix+'-cond-zonas-lista');
+  return cont ? cont.querySelectorAll('.cond-zona-block').length : 0;
+}
+function agregarZonaCondral(prefix, data){
+  const cont = document.getElementById(prefix+'-cond-zonas-lista');
+  if(!cont) return;
+  const uid = 'cz'+Date.now()+Math.floor(Math.random()*1000);
+  const wrapper = document.createElement('div');
+  wrapper.innerHTML = plantillaCondZonaUnitaria(prefix, uid).trim();
+  cont.appendChild(wrapper.firstElementChild);
+  if(data){
+    const zonaEl = document.getElementById(prefix+'_cond_zona_'+uid);
+    const gradoEl = document.getElementById(prefix+'_cond_grado_'+uid);
+    const diametroEl = document.getElementById(prefix+'_cond_diametro_'+uid);
+    if(zonaEl) zonaEl.value = data.zona || '';
+    if(gradoEl) gradoEl.value = data.grado || '';
+    if(diametroEl) diametroEl.value = data.diametro || '';
+  }
+}
+function quitarZonaCondral(prefix, uid){
+  const cont = document.getElementById(prefix+'-cond-zonas-lista');
+  if(!cont) return;
+  const block = cont.querySelector('.cond-zona-block[data-uid="'+uid+'"]');
+  if(block) block.remove();
+}
+function leerZonasCondrales(prefix){
+  const cont = document.getElementById(prefix+'-cond-zonas-lista');
+  if(!cont) return [];
+  return Array.from(cont.querySelectorAll('.cond-zona-block')).map(block=>{
+    const uid = block.dataset.uid;
+    const zona = document.getElementById(prefix+'_cond_zona_'+uid).value;
+    const grado = document.getElementById(prefix+'_cond_grado_'+uid).value;
+    const diametro = document.getElementById(prefix+'_cond_diametro_'+uid).value.trim();
+    return { zona, grado, diametro };
+  }).filter(z=>z.zona || z.grado || z.diametro);
+}
+function cargarZonasCondrales(prefix, zonas){
+  const cont = document.getElementById(prefix+'-cond-zonas-lista');
+  if(!cont) return;
+  cont.innerHTML = '';
+  const lista = (zonas && zonas.length) ? zonas : [{}];
+  lista.forEach(z => agregarZonaCondral(prefix, z));
+}
+function leerBloqueDx(prefix){
+  const catEl = document.getElementById(prefix+'_categoria');
+  if(!catEl) return null;
+  const categoria = catEl.value;
+  if(!categoria) return null;
+  const obj = {categoria};
+  if(categoria==='Lesión meniscal'){
+    obj.menEspecifico = document.getElementById(prefix+'_men_especifico').value;
+    obj.menTipo = document.getElementById(prefix+'_men_tipo').value;
+    obj.menZona = document.getElementById(prefix+'_men_zona').value;
+  }else if(categoria==='Lesión condral'){
+    obj.condZonas = leerZonasCondrales(prefix);
+  }else if(categoria==='Lesión ligamentaria'){
+    obj.ligPresentacion = document.getElementById(prefix+'_lig_presentacion').value;
+    obj.ligUnico = document.getElementById(prefix+'_lig_unico').value;
+    obj.ligMulti = Array.from(document.querySelectorAll('#'+prefix+'_lig_multi input:checked')).map(i=>i.value);
+  }else if(categoria==='Fractura'){
+    obj.fracLocalizacion = document.getElementById(prefix+'_frac_localizacion').value;
+    obj.fracSchatzker = document.getElementById(prefix+'_frac_schatzker').value;
+    obj.fracAO = document.getElementById(prefix+'_frac_ao').value.trim();
+  }else if(categoria==='Inestabilidad patelofemoral'){
+    obj.pfjAltura = document.getElementById(prefix+'_pfj_altura').value;
+    obj.pfjCD = document.getElementById(prefix+'_pfj_cd').value.trim();
+    obj.pfjTtTg = document.getElementById(prefix+'_pfj_ttlg').value;
+    obj.pfjTtTgMetodo = document.getElementById(prefix+'_pfj_ttlg_metodo').value;
+    obj.pfjDisplasia = document.getElementById(prefix+'_pfj_displasia').value;
+    obj.pfjDetalle = document.getElementById(prefix+'_pfj_detalle').value.trim();
+  }else if(categoria==='Lesión tendínea'){
+    obj.tendEspecifico = document.getElementById(prefix+'_tend_especifico').value;
+  }else if(categoria==='Artrosis'){
+    obj.artrosisCompartimento = document.getElementById(prefix+'_artrosis_compartimento').value;
+  }else if(categoria==='Artritis séptica'){
+    obj.artritisGermen = document.getElementById(prefix+'_artritis_germen').value.trim();
+  }
+  return obj;
+}
+function cargarBloqueDx(prefix, data){
+  if(!data || !data.categoria) return;
+  document.getElementById(prefix+'_categoria').value = data.categoria;
+  actualizarSubbloqueDx(prefix);
+  if(data.categoria==='Lesión meniscal'){
+    document.getElementById(prefix+'_men_especifico').value = data.menEspecifico || '';
+    document.getElementById(prefix+'_men_tipo').value = data.menTipo || '';
+    document.getElementById(prefix+'_men_zona').value = data.menZona || '';
+  }else if(data.categoria==='Lesión condral'){
+    const zonasCond = Array.isArray(data.condZonas) ? data.condZonas : (data.condZona ? [{zona: data.condZona, grado: data.condGrado}] : []);
+    cargarZonasCondrales(prefix, zonasCond);
+  }else if(data.categoria==='Lesión ligamentaria'){
+    document.getElementById(prefix+'_lig_presentacion').value = data.ligPresentacion || '';
+    document.getElementById(prefix+'_lig_unico_wrap').style.display = data.ligPresentacion==='Aislada' ? 'block':'none';
+    document.getElementById(prefix+'_lig_multi_wrap').style.display = data.ligPresentacion==='Asociada' ? 'block':'none';
+    document.getElementById(prefix+'_lig_unico').value = data.ligUnico || '';
+    document.querySelectorAll('#'+prefix+'_lig_multi .chip').forEach(chip=>{
+      const input = chip.querySelector('input');
+      const checked = (data.ligMulti||[]).includes(input.value);
+      input.checked = checked;
+      chip.classList.toggle('checked', checked);
+    });
+  }else if(data.categoria==='Fractura'){
+    document.getElementById(prefix+'_frac_localizacion').value = data.fracLocalizacion || '';
+    const esTibiaProx = data.fracLocalizacion === 'Tibia proximal';
+    document.getElementById(prefix+'_frac_schatzker_wrap').style.display = esTibiaProx ? 'block':'none';
+    document.getElementById(prefix+'_frac_schatzker').value = data.fracSchatzker || '';
+    document.getElementById(prefix+'_frac_ao_wrap').style.display = (data.fracLocalizacion && !esTibiaProx) ? 'block':'none';
+    document.getElementById(prefix+'_frac_ao').value = data.fracAO || '';
+  }else if(data.categoria==='Inestabilidad patelofemoral'){
+    document.getElementById(prefix+'_pfj_altura').value = data.pfjAltura || '';
+    document.getElementById(prefix+'_pfj_cd_wrap').style.display = data.pfjAltura==='Patela alta' ? 'block':'none';
+    document.getElementById(prefix+'_pfj_cd').value = data.pfjCD || '';
+    document.getElementById(prefix+'_pfj_ttlg').value = data.pfjTtTg || '';
+    document.getElementById(prefix+'_pfj_ttlg_metodo').value = data.pfjTtTgMetodo || '';
+    document.getElementById(prefix+'_pfj_displasia').value = data.pfjDisplasia || '';
+    document.getElementById(prefix+'_pfj_detalle').value = data.pfjDetalle || '';
+  }else if(data.categoria==='Lesión tendínea'){
+    document.getElementById(prefix+'_tend_especifico').value = data.tendEspecifico || '';
+  }else if(data.categoria==='Artrosis'){
+    document.getElementById(prefix+'_artrosis_compartimento').value = data.artrosisCompartimento || '';
+  }else if(data.categoria==='Artritis séptica'){
+    document.getElementById(prefix+'_artritis_germen').value = data.artritisGermen || '';
+  }
+}
+function textoDx(dx){
+  if(!dx || !dx.categoria) return '';
+  const partes = [dx.categoria];
+  if(dx.categoria==='Lesión meniscal'){
+    partes.push([dx.menEspecifico, dx.menTipo, dx.menZona].filter(Boolean).join(' · '));
+  }else if(dx.categoria==='Lesión condral'){
+    const zonasCond = Array.isArray(dx.condZonas) ? dx.condZonas : (dx.condZona ? [{zona: dx.condZona, grado: dx.condGrado, diametro: dx.condDiametro}] : []);
+    const zonasTxt = zonasCond.map(z=>[z.zona, z.grado, z.diametro?('Ø '+z.diametro):''].filter(Boolean).join(' · ')).filter(Boolean).join(' + ');
+    partes.push(zonasTxt);
+  }else if(dx.categoria==='Lesión ligamentaria'){
+    if(dx.ligPresentacion==='Aislada'){
+      partes.push('Aislada: '+(dx.ligUnico||'—'));
+    }else if(dx.ligPresentacion==='Asociada'){
+      partes.push('Asociada: '+((dx.ligMulti||[]).join(' + ')||'—'));
+    }
+  }else if(dx.categoria==='Fractura'){
+    partes.push([dx.fracLocalizacion, dx.fracSchatzker, dx.fracAO].filter(Boolean).join(' · '));
+  }else if(dx.categoria==='Inestabilidad patelofemoral'){
+    const alturaTxt = dx.pfjAltura ? dx.pfjAltura + (dx.pfjAltura==='Patela alta' && dx.pfjCD ? ' (CD '+dx.pfjCD+')' : '') : '';
+    const ttTgTxt = dx.pfjTtTg ? 'TT-TG '+dx.pfjTtTg+' mm'+(dx.pfjTtTgMetodo ? ' ('+dx.pfjTtTgMetodo+')' : '') : '';
+    partes.push([alturaTxt, ttTgTxt, dx.pfjDisplasia ? 'Displasia: '+dx.pfjDisplasia : '', dx.pfjDetalle].filter(Boolean).join(' · '));
+  }else if(dx.categoria==='Lesión tendínea'){
+    if(dx.tendEspecifico) partes.push(dx.tendEspecifico);
+  }else if(dx.categoria==='Artrosis'){
+    if(dx.artrosisCompartimento) partes.push(dx.artrosisCompartimento);
+  }else if(dx.categoria==='Artritis séptica'){
+    if(dx.artritisGermen) partes.push('Germen: '+dx.artritisGermen);
+  }
+  return partes.filter(Boolean).join(' – ');
+}
+/* ---------- Manejo ligamentario por ligamento ---------- */
+function ligamentosSeleccionados(prefix){
+  const pres = document.getElementById(prefix+'_lig_presentacion');
+  if(!pres) return [];
+  if(pres.value === 'Aislada'){
+    const u = document.getElementById(prefix+'_lig_unico');
+    return (u && u.value) ? [u.value] : [];
+  }else if(pres.value === 'Asociada'){
+    return Array.from(document.querySelectorAll('#'+prefix+'_lig_multi input:checked')).map(i=>i.value);
+  }
+  return [];
+}
+function opcionesInjertoHTML(origen){
+  if(origen === 'Aloinjerto'){
+    return ['Tibial posterior','Tibial anterior','Peroneo','Aquiles','Otro']
+      .map(o=>`<option>${o}</option>`).join('');
+  }else if(origen === 'Autoinjerto'){
+    return ['Hueso-tendón-hueso (HTH)','Isquiotibiales (semitendinoso/gracilis)','Tendón cuadricipital','Otro']
+      .map(o=>`<option>${o}</option>`).join('');
+  }
+  return '<option>No aplica</option><option>Otro</option>';
+}
+function actualizarOpcionesInjerto(prefix, lig, valorPrevio){
+  const sel = document.getElementById(prefix+'_lig_'+lig+'_injerto');
+  if(!sel) return;
+  const origenEl = document.getElementById(prefix+'_lig_'+lig+'_origen');
+  const origen = origenEl ? origenEl.value : '';
+  const previo = valorPrevio !== undefined ? valorPrevio : sel.value;
+  sel.innerHTML = '<option value="">Seleccionar</option>' + opcionesInjertoHTML(origen);
+  if(previo && Array.from(sel.options).some(o=>o.value===previo)){
+    sel.value = previo;
+  }
+}
+function plantillaManejoLigUnitario(prefix, lig){
+  const esEPM = lig === 'EPM';
+  const esEPL = lig === 'EPL';
+  const esLCA = lig === 'LCA';
+  const esLCAoLCP = (lig === 'LCA' || lig === 'LCP');
+  const bandasHtml = esLCAoLCP ? `
+        <div class="field" id="${prefix}_lig_${lig}_bandas_wrap" style="display:none;">
+          <label>N.º de bandas</label>
+          <select id="${prefix}_lig_${lig}_bandas">
+            <option value="">Seleccionar</option>
+            <option>Una banda</option>
+            <option>Doble banda</option>
+          </select>
+        </div>` : '';
+  const fijacionHtml = !esEPL ? `
+        <div class="extra-grid-2" id="${prefix}_lig_${lig}_fijacion_wrap" style="margin-top:8px;display:none;">
+          <div class="field">
+            <label>Fijación femoral</label>
+            <select id="${prefix}_lig_${lig}_fij_femoral">
+              <option value="">Seleccionar</option>
+              <option>Tornillo interferencial</option>
+              <option>Endobutton / suspensorio</option>
+              <option>Grapa (staple)</option>
+              <option>Tornillo biocompuesto / bioabsorbible</option>
+              <option>Otro</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Fijación tibial</label>
+            <select id="${prefix}_lig_${lig}_fij_tibial">
+              <option value="">Seleccionar</option>
+              <option>Tornillo interferencial</option>
+              <option>Endobutton / suspensorio</option>
+              <option>Grapa (staple)</option>
+              <option>Tornillo biocompuesto / bioabsorbible</option>
+              <option>Otro</option>
+            </select>
+          </div>
+        </div>` : '';
+  const tecnicaHtml = esEPL ? `
+        <div class="field" id="${prefix}_lig_${lig}_tecnica_wrap" style="margin-top:8px;display:none;">
+          <label>Técnica utilizada</label>
+          <select id="${prefix}_lig_${lig}_tecnica">
+            <option value="">Seleccionar</option>
+            <option>Arciero</option>
+            <option>Laprade</option>
+            <option>LCL aislado</option>
+            <option>Otra</option>
+          </select>
+        </div>` : '';
+  const epmExtraHtml = esEPM ? `
+        <div class="field" style="margin-top:8px;">
+          <label>Técnica</label>
+          <select id="${prefix}_lig_${lig}_epm_tecnica">
+            <option value="">Seleccionar</option>
+            <option>Anatómica</option>
+            <option>Con un túnel femoral</option>
+            <option>LCM aislado</option>
+          </select>
+        </div>
+        <div class="field" style="margin-top:8px;">
+          <label>¿Fijación de LCM profundo con ancla?</label>
+          <select id="${prefix}_lig_${lig}_epm_lcm_ancla">
+            <option value="">Seleccionar</option>
+            <option value="Sí">Sí</option>
+            <option value="No">No</option>
+          </select>
+        </div>` : '';
+  const alatHtml = esLCA ? `
+      <div class="field" style="margin-top:8px;">
+        <label>¿Tenodesis anterolateral (ALL)?</label>
+        <select id="${prefix}_lig_${lig}_alat">
+          <option value="">Seleccionar</option>
+          <option value="Sí">Sí</option>
+          <option value="No">No</option>
+        </select>
+      </div>
+      <div class="extra-grid-2" id="${prefix}_lig_${lig}_alat_detalle_wrap" style="display:none;margin-top:8px;">
+        <div class="field">
+          <label>Técnica utilizada</label>
+          <select id="${prefix}_lig_${lig}_alat_tecnica">
+            <option value="">Seleccionar</option>
+            <option>Lemaire</option>
+            <option>Arnold-Cocker</option>
+            <option>Otra</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Fijación</label>
+          <select id="${prefix}_lig_${lig}_alat_fijacion">
+            <option value="">Seleccionar</option>
+            <option>Ancla</option>
+            <option>Tornillo</option>
+            <option>Sutura</option>
+            <option>Grapa</option>
+            <option>Otra</option>
+          </select>
+        </div>
+      </div>` : '';
+  return `
+    <div class="block-box" data-lig="${lig}" style="margin-top:8px;">
+      <div class="titulo-extra">${lig}</div>
+      <div class="extra-grid-2">
+        <div class="field">
+          <label>Procedimiento</label>
+          <select id="${prefix}_lig_${lig}_proc">
+            <option value="">Seleccionar</option>
+            <option>Reconstrucción</option>
+            <option>Reparación</option>
+          </select>
+        </div>
+        ${bandasHtml}
+      </div>
+      <div id="${prefix}_lig_${lig}_recon_wrap" style="display:none;">
+        <div class="extra-grid" style="margin-top:8px;">
+          <div class="field">
+            <label>Origen del injerto</label>
+            <select id="${prefix}_lig_${lig}_origen">
+              <option value="">Seleccionar</option>
+              <option>Autoinjerto</option>
+              <option>Aloinjerto</option>
+              <option>No aplica</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Injerto utilizado</label>
+            <select id="${prefix}_lig_${lig}_injerto">
+              <option value="">Seleccionar</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Tamaño del injerto</label>
+            <input type="text" id="${prefix}_lig_${lig}_tamano" placeholder="Ej: 8 mm">
+          </div>
+        </div>
+        ${fijacionHtml}
+        ${alatHtml}
+        ${tecnicaHtml}
+        ${epmExtraHtml}
+      </div>
+    </div>
+  `;
+}
+function inicializarManejoLigUnitario(prefix, lig){
+  const proc = document.getElementById(prefix+'_lig_'+lig+'_proc');
+  if(!proc) return;
+  proc.addEventListener('change', function(){
+    const esRecon = this.value === 'Reconstrucción';
+    const reconWrap = document.getElementById(prefix+'_lig_'+lig+'_recon_wrap');
+    const bandasWrap = document.getElementById(prefix+'_lig_'+lig+'_bandas_wrap');
+    const fijWrap = document.getElementById(prefix+'_lig_'+lig+'_fijacion_wrap');
+    const tecWrap = document.getElementById(prefix+'_lig_'+lig+'_tecnica_wrap');
+    if(reconWrap) reconWrap.style.display = esRecon ? 'block' : 'none';
+    if(bandasWrap) bandasWrap.style.display = esRecon ? 'block' : 'none';
+    if(fijWrap) fijWrap.style.display = esRecon ? 'grid' : 'none';
+    if(tecWrap) tecWrap.style.display = esRecon ? 'block' : 'none';
+  });
+  const origenSel = document.getElementById(prefix+'_lig_'+lig+'_origen');
+  if(origenSel){
+    origenSel.addEventListener('change', ()=> actualizarOpcionesInjerto(prefix, lig));
+    actualizarOpcionesInjerto(prefix, lig);
+  }
+  const alatSel = document.getElementById(prefix+'_lig_'+lig+'_alat');
+  if(alatSel){
+    alatSel.addEventListener('change', function(){
+      const wrap = document.getElementById(prefix+'_lig_'+lig+'_alat_detalle_wrap');
+      if(wrap) wrap.style.display = this.value==='Sí' ? 'grid' : 'none';
+    });
+  }
+}
+function leerManejoLigUnitario(prefix, lig){
+  const get = id => { const el = document.getElementById(id); return el ? el.value : ''; };
+  return {
+    procedimiento: get(prefix+'_lig_'+lig+'_proc'),
+    bandas: get(prefix+'_lig_'+lig+'_bandas'),
+    origen: get(prefix+'_lig_'+lig+'_origen'),
+    injerto: get(prefix+'_lig_'+lig+'_injerto'),
+    tamano: get(prefix+'_lig_'+lig+'_tamano').trim(),
+    fijacionFemoral: get(prefix+'_lig_'+lig+'_fij_femoral'),
+    fijacionTibial: get(prefix+'_lig_'+lig+'_fij_tibial'),
+    tecnica: get(prefix+'_lig_'+lig+'_tecnica'),
+    epmTecnica: get(prefix+'_lig_'+lig+'_epm_tecnica'),
+    epmLcmAncla: get(prefix+'_lig_'+lig+'_epm_lcm_ancla'),
+    alat: get(prefix+'_lig_'+lig+'_alat'),
+    alatTecnica: get(prefix+'_lig_'+lig+'_alat_tecnica'),
+    alatFijacion: get(prefix+'_lig_'+lig+'_alat_fijacion')
+  };
+}
+function cargarManejoLigUnitario(prefix, lig, data){
+  const d = data || {};
+  const set = (id,val) => { const el = document.getElementById(id); if(el) el.value = val || ''; };
+  set(prefix+'_lig_'+lig+'_proc', d.procedimiento);
+  set(prefix+'_lig_'+lig+'_bandas', d.bandas);
+  set(prefix+'_lig_'+lig+'_origen', d.origen);
+  actualizarOpcionesInjerto(prefix, lig, d.injerto);
+  set(prefix+'_lig_'+lig+'_tamano', d.tamano);
+  set(prefix+'_lig_'+lig+'_fij_femoral', d.fijacionFemoral);
+  set(prefix+'_lig_'+lig+'_fij_tibial', d.fijacionTibial);
+  set(prefix+'_lig_'+lig+'_tecnica', d.tecnica);
+  set(prefix+'_lig_'+lig+'_epm_tecnica', d.epmTecnica);
+  set(prefix+'_lig_'+lig+'_epm_lcm_ancla', d.epmLcmAncla);
+  set(prefix+'_lig_'+lig+'_alat', d.alat);
+  set(prefix+'_lig_'+lig+'_alat_tecnica', d.alatTecnica);
+  set(prefix+'_lig_'+lig+'_alat_fijacion', d.alatFijacion);
+  const alatWrap = document.getElementById(prefix+'_lig_'+lig+'_alat_detalle_wrap');
+  if(alatWrap) alatWrap.style.display = d.alat==='Sí' ? 'grid' : 'none';
+  const esRecon = d.procedimiento === 'Reconstrucción';
+  const reconWrap = document.getElementById(prefix+'_lig_'+lig+'_recon_wrap');
+  const bandasWrap = document.getElementById(prefix+'_lig_'+lig+'_bandas_wrap');
+  const fijWrap = document.getElementById(prefix+'_lig_'+lig+'_fijacion_wrap');
+  const tecWrap = document.getElementById(prefix+'_lig_'+lig+'_tecnica_wrap');
+  if(reconWrap) reconWrap.style.display = esRecon ? 'block' : 'none';
+  if(bandasWrap) bandasWrap.style.display = esRecon ? 'block' : 'none';
+  if(fijWrap) fijWrap.style.display = esRecon ? 'grid' : 'none';
+  if(tecWrap) tecWrap.style.display = esRecon ? 'block' : 'none';
+}
+function renderManejoLigamentario(prefix){
+  const cont = document.getElementById(prefix+'-manejo-lig-lista');
+  if(!cont) return;
+  const ligs = ligamentosSeleccionados(prefix);
+  const previos = {};
+  cont.querySelectorAll('[data-lig]').forEach(box=>{
+    previos[box.dataset.lig] = leerManejoLigUnitario(prefix, box.dataset.lig);
+  });
+  if(ligs.length===0){
+    cont.innerHTML = '<div style="color:var(--ink-soft);font-size:.82rem;">Selecciona el/los ligamento(s) comprometido(s) en el diagnóstico para definir su manejo.</div>';
+    return;
+  }
+  cont.innerHTML = ligs.map(lig=>plantillaManejoLigUnitario(prefix, lig)).join('');
+  ligs.forEach(lig=>{
+    inicializarManejoLigUnitario(prefix, lig);
+    if(previos[lig]) cargarManejoLigUnitario(prefix, lig, previos[lig]);
+  });
+}
+function textoManejoLig(lig, d){
+  if(!d) return '';
+  const tieneAlat = lig==='LCA' && d.alat;
+  if(!d.procedimiento && !tieneAlat) return '';
+  const partes = [];
+  partes.push(d.procedimiento ? lig+': '+d.procedimiento : lig);
+  if(d.procedimiento==='Reconstrucción'){
+    const detalle = [d.origen, d.injerto, d.tamano].filter(Boolean).join(' · ');
+    if(detalle) partes.push(detalle);
+    if(d.bandas) partes.push(d.bandas);
+    if(lig==='EPL'){
+      if(d.tecnica) partes.push('Técnica: '+d.tecnica);
+    }else if(lig==='EPM'){
+      if(d.fijacionFemoral || d.fijacionTibial) partes.push('Fij. F/T: '+[d.fijacionFemoral,d.fijacionTibial].filter(Boolean).join(' / '));
+      if(d.epmTecnica) partes.push('Técnica: '+d.epmTecnica);
+      if(d.epmLcmAncla) partes.push('LCM profundo c/ancla: '+d.epmLcmAncla);
+    }else{
+      if(d.fijacionFemoral || d.fijacionTibial) partes.push('Fij. F/T: '+[d.fijacionFemoral,d.fijacionTibial].filter(Boolean).join(' / '));
+    }
+  }
+  if(tieneAlat){
+    let alatTxt = 'Tenodesis ALL: '+d.alat;
+    if(d.alat==='Sí'){
+      const detalleAlat = [d.alatTecnica, d.alatFijacion].filter(Boolean).join(' · ');
+      if(detalleAlat) alatTxt += ' ('+detalleAlat+')';
+    }
+    partes.push(alatTxt);
+  }
+  return partes.filter(Boolean).join(' – ');
+}
+/* ---------- Posición de placas (una por placa cuando hay 2 o más) ---------- */
+function opcionesPosicionPlacaHTML(){
+  return ['Medial','Lateral','Posteromedial','Anterior','Otra'].map(o=>`<option>${o}</option>`).join('');
+}
+function renderPosicionesPlaca(prefix, valoresPrevios){
+  const cont = document.getElementById(prefix+'_manejo_frac_placa_pos_lista');
+  if(!cont) return;
+  const placasInput = document.getElementById(prefix+'_manejo_frac_placas');
+  const n = placasInput ? (Number(placasInput.value) || 0) : 0;
+  if(n <= 0){
+    cont.innerHTML = '';
+    return;
+  }
+  const previos = valoresPrevios || Array.from(cont.querySelectorAll('select')).map(s=>s.value);
+  let html = '';
+  for(let i=0;i<n;i++){
+    html += `
+      <div class="field" style="margin-top:${i===0?'0':'8px'};">
+        <label>${n>1 ? 'Posición placa '+(i+1) : 'Posición de la placa'}</label>
+        <select id="${prefix}_manejo_frac_placa_pos_${i}">
+          <option value="">Seleccionar</option>
+          ${opcionesPosicionPlacaHTML()}
+        </select>
+      </div>`;
+  }
+  cont.innerHTML = html;
+  for(let i=0;i<n;i++){
+    const sel = document.getElementById(prefix+'_manejo_frac_placa_pos_'+i);
+    if(sel && previos[i] && Array.from(sel.options).some(o=>o.value===previos[i])){
+      sel.value = previos[i];
+    }
+  }
+}
+/* ---------- Manejo específico (plantilla reutilizada para dx1 y dx2) ---------- */
+function plantillaManejo(prefix){
+  return `
+    <div class="block-box" id="${prefix}-manejo-meniscal" style="display:none;">
+      <div class="titulo-extra">Manejo meniscal</div>
+      <div class="extra-grid-2">
+        <div class="field">
+          <label>Procedimiento</label>
+          <select id="${prefix}_manejo_men_proc">
+            <option value="">Seleccionar</option>
+            <option>Sutura meniscal</option>
+            <option>Menisectomía parcial</option>
+            <option>Menisectomía subtotal</option>
+            <option>Menisectomía total</option>
+            <option>Reinserción</option>
+            <option>Otro</option>
+          </select>
+        </div>
+        <div class="field" id="${prefix}-manejo-men-sutura-wrap" style="display:none;">
+          <label>Técnica de abordaje <span style="font-weight:400;color:var(--ink-soft);">(puede elegir más de una)</span></label>
+          <div class="checks" id="${prefix}_manejo_men_sutura">
+            <label class="chip"><input type="checkbox" value="Dentro-fuera">Dentro-fuera</label>
+            <label class="chip"><input type="checkbox" value="Todo-dentro">Todo-dentro</label>
+            <label class="chip"><input type="checkbox" value="Fuera-dentro">Fuera-dentro</label>
+          </div>
+          <div class="extra-grid-2" style="margin-top:8px;">
+            <div class="field">
+              <label>N.º de suturas utilizadas</label>
+              <input type="number" id="${prefix}_manejo_men_num_suturas" min="0" placeholder="0">
+            </div>
+            <div class="field">
+              <label>Patrón de sutura <span style="font-weight:400;color:var(--ink-soft);">(puede elegir más de uno)</span></label>
+              <div class="checks" id="${prefix}_manejo_men_patron">
+                <label class="chip"><input type="checkbox" value="Hashtag">Hashtag</label>
+                <label class="chip"><input type="checkbox" value="Vertical">Vertical</label>
+                <label class="chip"><input type="checkbox" value="Horizontal">Horizontal</label>
+                <label class="chip"><input type="checkbox" value="X">X</label>
+                <label class="chip"><input type="checkbox" value="Otros">Otros</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="extra-grid-2" id="${prefix}-manejo-men-raiz-wrap" style="display:none;margin-top:8px;">
+        <div class="field">
+          <label>Técnica de fijación de raíz meniscal</label>
+          <input type="text" id="${prefix}_manejo_men_raiz_tecnica" placeholder="Ej: sutura transtibial, ancla...">
+        </div>
+        <div class="field">
+          <label>¿Se realizó centralización meniscal?</label>
+          <select id="${prefix}_manejo_men_centralizacion">
+            <option value="">Seleccionar</option>
+            <option value="Sí">Sí</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="block-box" id="${prefix}-manejo-ligamentaria" style="display:none;">
+      <div class="titulo-extra">Manejo ligamentario</div>
+      <div id="${prefix}-manejo-lig-lista"></div>
+    </div>
+    <div class="block-box" id="${prefix}-manejo-condral" style="display:none;">
+      <div class="titulo-extra">Manejo de cartílago</div>
+      <select id="${prefix}_manejo_cond_proc">
+        <option value="">Seleccionar</option>
+        <option>Microfractura</option>
+        <option>Autoinjerto osteocondral (mosaicoplastia)</option>
+        <option>Aloinjerto osteocondral</option>
+        <option>Implante de condrocitos autólogos (ACI/MACI)</option>
+        <option>Osteotomía</option>
+        <option>Otro</option>
+      </select>
+      <div class="extra-grid-2" id="${prefix}_manejo_cond_osteo_wrap" style="display:none;margin-top:8px;">
+        <div class="field">
+          <label>Osteotomía realizada</label>
+          <select id="${prefix}_manejo_cond_osteo_tipo">
+            <option value="">Seleccionar</option>
+            <option>Valguizante</option>
+            <option>Varizante</option>
+            <option>Avance</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Localización</label>
+          <select id="${prefix}_manejo_cond_osteo_loc">
+            <option value="">Seleccionar</option>
+            <option>Tibia</option>
+            <option>Fémur</option>
+          </select>
+        </div>
+      </div>
+      <div class="extra-grid-2" id="${prefix}_manejo_cond_autoinjerto_wrap" style="display:none;margin-top:8px;">
+        <div class="field">
+          <label>N.º de autoinjertos</label>
+          <input type="number" id="${prefix}_manejo_cond_autoinjerto_numero" min="0" placeholder="0">
+        </div>
+        <div class="field">
+          <label>Diámetro</label>
+          <input type="text" id="${prefix}_manejo_cond_autoinjerto_diametro" placeholder="Ej: 8 mm, 6 mm...">
+        </div>
+      </div>
+    </div>
+    <div class="block-box" id="${prefix}-manejo-fractura" style="display:none;">
+      <div class="titulo-extra">Manejo de fractura</div>
+      <div class="extra-grid-2">
+        <div class="field">
+          <label>Manejo quirúrgico</label>
+          <select id="${prefix}_manejo_frac_manejo">
+            <option value="">Seleccionar</option>
+            <option>Reducción cerrada</option>
+            <option>Reducción abierta y osteosíntesis (ORIF)</option>
+            <option>Clavo endomedular</option>
+            <option>Fijador externo</option>
+            <option>Otro</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>N.º de placas utilizadas</label>
+          <input type="number" id="${prefix}_manejo_frac_placas" min="0" placeholder="0">
+        </div>
+      </div>
+      <div class="extra-grid-2" id="${prefix}_manejo_frac_clavo_wrap" style="display:none;margin-top:8px;">
+        <div class="field">
+          <label>Diámetro del clavo</label>
+          <input type="text" id="${prefix}_manejo_frac_clavo_diametro" placeholder="Ej: 9 mm">
+        </div>
+        <div class="field">
+          <label>Técnica de abordaje</label>
+          <select id="${prefix}_manejo_frac_clavo_tecnica">
+            <option value="">Seleccionar</option>
+            <option>Transpatelar</option>
+            <option>Suprapatelar</option>
+            <option>Lateropatelar</option>
+          </select>
+        </div>
+      </div>
+      <div class="field" id="${prefix}_manejo_frac_placa_pos_wrap" style="display:none;margin-top:8px;">
+        <label>Posición de la(s) placa(s)</label>
+        <div id="${prefix}_manejo_frac_placa_pos_lista"></div>
+      </div>
+    </div>
+    <div class="block-box" id="${prefix}-manejo-tendinea" style="display:none;">
+      <div class="titulo-extra">Manejo de lesión tendínea</div>
+      <div class="extra-grid-2">
+        <div class="field">
+          <label>Procedimiento</label>
+          <select id="${prefix}_manejo_tend_proc">
+            <option value="">Seleccionar</option>
+            <option>Reparación</option>
+            <option>Reconstrucción</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Técnica</label>
+          <select id="${prefix}_manejo_tend_tecnica">
+            <option value="">Seleccionar</option>
+            <option>Anclas</option>
+            <option>Túnel transóseo</option>
+            <option>Otra</option>
+          </select>
+        </div>
+      </div>
+      <div class="field" style="margin-top:8px;">
+        <label>¿Se realizó marco de refuerzo?</label>
+        <select id="${prefix}_manejo_tend_marco">
+          <option value="">Seleccionar</option>
+          <option value="Sí">Sí</option>
+          <option value="No">No</option>
+        </select>
+      </div>
+      <div class="field" id="${prefix}_manejo_tend_marco_tipo_wrap" style="display:none;margin-top:8px;">
+        <label>Tipo de marco <span style="font-weight:400;color:var(--ink-soft);">(puede elegir más de uno)</span></label>
+        <div class="checks" id="${prefix}_manejo_tend_marco_tipo">
+          <label class="chip"><input type="checkbox" value="Autoinjerto">Autoinjerto</label>
+          <label class="chip"><input type="checkbox" value="Sutura de alta resistencia">Sutura de alta resistencia</label>
+        </div>
+      </div>
+    </div>
+    <div class="block-box" id="${prefix}-manejo-pfj" style="display:none;">
+      <div class="titulo-extra">Manejo de inestabilidad patelofemoral</div>
+      <div class="extra-grid-2">
+        <div class="field">
+          <label>¿Reconstrucción de ligamento patelofemoral (MPFL)?</label>
+          <select id="${prefix}_manejo_pfj_recon">
+            <option value="">Seleccionar</option>
+            <option value="Sí">Sí</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>¿Osteotomía?</label>
+          <select id="${prefix}_manejo_pfj_osteo">
+            <option value="">Seleccionar</option>
+            <option value="Sí">Sí</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+      </div>
+      <div class="extra-grid" id="${prefix}_manejo_pfj_recon_detalle_wrap" style="display:none;margin-top:8px;">
+        <div class="field">
+          <label>Injerto utilizado</label>
+          <select id="${prefix}_manejo_pfj_recon_injerto">
+            <option value="">Seleccionar</option>
+            <option>Autoinjerto - Gracilis</option>
+            <option>Autoinjerto - Semitendinoso</option>
+            <option>Aloinjerto - Gracilis</option>
+            <option>Aloinjerto - Semitendinoso</option>
+            <option>Otro</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Fijación femoral</label>
+          <select id="${prefix}_manejo_pfj_recon_fij_femoral">
+            <option value="">Seleccionar</option>
+            <option>Túnel</option>
+            <option>Ancla</option>
+            <option>Otro</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Fijación patelar</label>
+          <select id="${prefix}_manejo_pfj_recon_fij_patelar">
+            <option value="">Seleccionar</option>
+            <option>Ancla</option>
+            <option>Túnel</option>
+            <option>Otro</option>
+          </select>
+        </div>
+      </div>
+      <div class="field" id="${prefix}_manejo_pfj_osteo_tipo_wrap" style="display:none;margin-top:8px;">
+        <label>Tipo de osteotomía <span style="font-weight:400;color:var(--ink-soft);">(puede seleccionar más de una)</span></label>
+        <div class="checks" id="${prefix}_manejo_pfj_osteo_tipo">
+          <label class="chip"><input type="checkbox" value="De avance">De avance</label>
+          <label class="chip"><input type="checkbox" value="De distalización">De distalización</label>
+          <label class="chip"><input type="checkbox" value="De medialización">De medialización</label>
+        </div>
+      </div>
+      <div class="field" style="margin-top:8px;">
+        <label>Retinaculotomía</label>
+        <select id="${prefix}_manejo_pfj_retinaculotomia">
+          <option value="">Seleccionar</option>
+          <option>No realizada</option>
+          <option>Abierta</option>
+          <option>Artroscópica</option>
+        </select>
+      </div>
+    </div>
+    <div class="block-box" id="${prefix}-manejo-protesis" style="display:none;">
+      <div class="titulo-extra">Manejo protésico</div>
+      <select id="${prefix}_manejo_protesis_tipo">
+        <option value="">Seleccionar</option>
+        <option>Prótesis total</option>
+        <option>Prótesis parcial / unicompartimental</option>
+        <option>Prótesis patelofemoral</option>
+      </select>
+      <div class="extra-grid-2" id="${prefix}_manejo_protesis_completa_wrap" style="display:none;margin-top:10px;">
+        <div class="field">
+          <label>Tamaño componente femoral</label>
+          <input type="text" id="${prefix}_manejo_protesis_femoral" placeholder="Ej: talla 4">
+        </div>
+        <div class="field">
+          <label>Tamaño componente tibial</label>
+          <input type="text" id="${prefix}_manejo_protesis_tibial" placeholder="Ej: talla 3">
+        </div>
+        <div class="field">
+          <label>Tipo de poli</label>
+          <select id="${prefix}_manejo_protesis_poli_tipo">
+            <option value="">Seleccionar</option>
+            <option>Fijo — retención cruzada (CR)</option>
+            <option>Fijo — postero-estabilizado (PS)</option>
+            <option>Móvil</option>
+            <option>Otro</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Tamaño de poli</label>
+          <input type="text" id="${prefix}_manejo_protesis_poli_tamano" placeholder="Ej: 10 mm">
+        </div>
+      </div>
+      <div class="field" id="${prefix}_manejo_protesis_pfj_wrap" style="display:none;margin-top:10px;">
+        <label>Tamaño componente femoral</label>
+        <input type="text" id="${prefix}_manejo_protesis_pfj_femoral" placeholder="Ej: talla M">
+      </div>
+      <div class="field" id="${prefix}_manejo_protesis_recambio_patela_wrap" style="display:none;margin-top:10px;">
+        <label>¿Recambio de patela?</label>
+        <select id="${prefix}_manejo_protesis_recambio_patela">
+          <option value="">Seleccionar</option>
+          <option value="Sí">Sí</option>
+          <option value="No">No</option>
+        </select>
+      </div>
+    </div>
+    <div class="block-box" id="${prefix}-manejo-artritis" style="display:none;">
+      <div class="titulo-extra">Manejo de artritis séptica</div>
+      <select id="${prefix}_manejo_artritis_aseo">
+        <option value="">Seleccionar</option>
+        <option>Aseo artroscópico</option>
+        <option>Aseo abierto</option>
+      </select>
+    </div>
+    <div class="block-box" style="margin-top:10px;">
+      <div class="titulo-extra">Insumo utilizado</div>
+      <div class="extra-grid-2">
+        <div class="field">
+          <label>Insumo / material</label>
+          <input type="text" id="${prefix}_manejo_insumo" placeholder="Ej: ancla de sutura, tornillo interferencial, injerto...">
+        </div>
+        <div class="field">
+          <label>Referencia / marca</label>
+          <input type="text" id="${prefix}_manejo_insumo_ref" placeholder="Marca, referencia, lote">
+        </div>
+      </div>
+    </div>
+    <div class="field" style="margin-top:10px;">
+      <label>Otro manejo / detalle adicional</label>
+      <input type="text" id="${prefix}_manejo_otro" placeholder="Especificar si no corresponde a las categorías anteriores">
+    </div>
+  `;
+}
+function actualizarManejoMenRaiz(prefix){
+  const tipoEl = document.getElementById(prefix+'_men_tipo');
+  const wrap = document.getElementById(prefix+'-manejo-men-raiz-wrap');
+  if(wrap) wrap.style.display = (tipoEl && tipoEl.value==='Raíz') ? 'grid' : 'none';
+}
+function actualizarManejo(prefix){
+  const cont = document.getElementById('manejo-'+prefix+'-container');
+  if(!cont) return;
+  const catEl = document.getElementById(prefix+'_categoria');
+  const cat = catEl ? catEl.value : '';
+  cont.querySelectorAll('.block-box[id^="'+prefix+'-manejo-"]').forEach(b=>b.style.display='none');
+  actualizarManejoMenRaiz(prefix);
+  const mapa = {
+    'Lesión meniscal': prefix+'-manejo-meniscal',
+    'Lesión ligamentaria': prefix+'-manejo-ligamentaria',
+    'Lesión condral': prefix+'-manejo-condral',
+    'Fractura': prefix+'-manejo-fractura',
+    'Lesión tendínea': prefix+'-manejo-tendinea',
+    'Inestabilidad patelofemoral': prefix+'-manejo-pfj',
+    'Artritis séptica': prefix+'-manejo-artritis'
+  };
+  if(mapa[cat]){
+    const el = document.getElementById(mapa[cat]);
+    if(el) el.style.display='block';
+  }
+  if(cat==='Artrosis'){
+    const el = document.getElementById(prefix+'-manejo-protesis');
+    if(el) el.style.display='block';
+  }
+}
+function inicializarManejo(prefix){
+  const menProc = document.getElementById(prefix+'_manejo_men_proc');
+  if(menProc){
+    menProc.addEventListener('change', function(){
+      const wrap = document.getElementById(prefix+'-manejo-men-sutura-wrap');
+      if(wrap) wrap.style.display = this.value==='Sutura meniscal' ? 'block' : 'none';
+    });
+  }
+  document.querySelectorAll('#'+prefix+'_manejo_men_sutura .chip').forEach(chip=>{
+    const input = chip.querySelector('input');
+    input.addEventListener('change', ()=> chip.classList.toggle('checked', input.checked));
+  });
+  const condProc = document.getElementById(prefix+'_manejo_cond_proc');
+  if(condProc){
+    condProc.addEventListener('change', function(){
+      const wrap = document.getElementById(prefix+'_manejo_cond_osteo_wrap');
+      if(wrap) wrap.style.display = this.value==='Osteotomía' ? 'grid' : 'none';
+      const autoWrap = document.getElementById(prefix+'_manejo_cond_autoinjerto_wrap');
+      if(autoWrap) autoWrap.style.display = this.value==='Autoinjerto osteocondral (mosaicoplastia)' ? 'grid' : 'none';
+    });
+  }
+  document.querySelectorAll('#'+prefix+'_manejo_men_patron .chip').forEach(chip=>{
+    const input = chip.querySelector('input');
+    input.addEventListener('change', ()=> chip.classList.toggle('checked', input.checked));
+  });
+  const tendMarco = document.getElementById(prefix+'_manejo_tend_marco');
+  if(tendMarco){
+    tendMarco.addEventListener('change', function(){
+      const wrap = document.getElementById(prefix+'_manejo_tend_marco_tipo_wrap');
+      if(wrap) wrap.style.display = this.value==='Sí' ? 'block' : 'none';
+    });
+  }
+  document.querySelectorAll('#'+prefix+'_manejo_tend_marco_tipo .chip').forEach(chip=>{
+    const input = chip.querySelector('input');
+    input.addEventListener('change', ()=> chip.classList.toggle('checked', input.checked));
+  });
+  const protTipo = document.getElementById(prefix+'_manejo_protesis_tipo');
+  if(protTipo){
+    protTipo.addEventListener('change', function(){
+      const completa = this.value==='Prótesis total' || this.value==='Prótesis parcial / unicompartimental';
+      const pfjSel = this.value==='Prótesis patelofemoral';
+      const esTotal = this.value==='Prótesis total';
+      const completaWrap = document.getElementById(prefix+'_manejo_protesis_completa_wrap');
+      const pfjWrap = document.getElementById(prefix+'_manejo_protesis_pfj_wrap');
+      const recambioWrap = document.getElementById(prefix+'_manejo_protesis_recambio_patela_wrap');
+      if(completaWrap) completaWrap.style.display = completa ? 'grid' : 'none';
+      if(pfjWrap) pfjWrap.style.display = pfjSel ? 'block' : 'none';
+      if(recambioWrap) recambioWrap.style.display = esTotal ? 'block' : 'none';
+    });
+  }
+  const fracManejoSel = document.getElementById(prefix+'_manejo_frac_manejo');
+  if(fracManejoSel){
+    fracManejoSel.addEventListener('change', function(){
+      const wrap = document.getElementById(prefix+'_manejo_frac_clavo_wrap');
+      if(wrap) wrap.style.display = this.value==='Clavo endomedular' ? 'grid' : 'none';
+    });
+  }
+  const fracPlacasInput = document.getElementById(prefix+'_manejo_frac_placas');
+  if(fracPlacasInput){
+    fracPlacasInput.addEventListener('input', function(){
+      const wrap = document.getElementById(prefix+'_manejo_frac_placa_pos_wrap');
+      const n = Number(this.value) || 0;
+      if(wrap) wrap.style.display = n > 0 ? 'block' : 'none';
+      renderPosicionesPlaca(prefix);
+    });
+  }
+  const pfjRecon = document.getElementById(prefix+'_manejo_pfj_recon');
+  if(pfjRecon){
+    pfjRecon.addEventListener('change', function(){
+      const wrap = document.getElementById(prefix+'_manejo_pfj_recon_detalle_wrap');
+      if(wrap) wrap.style.display = this.value==='Sí' ? 'grid' : 'none';
+    });
+  }
+  const pfjOsteo = document.getElementById(prefix+'_manejo_pfj_osteo');
+  if(pfjOsteo){
+    pfjOsteo.addEventListener('change', function(){
+      const wrap = document.getElementById(prefix+'_manejo_pfj_osteo_tipo_wrap');
+      if(wrap) wrap.style.display = this.value==='Sí' ? 'block' : 'none';
+    });
+  }
+  document.querySelectorAll('#'+prefix+'_manejo_pfj_osteo_tipo .chip').forEach(chip=>{
+    const input = chip.querySelector('input');
+    input.addEventListener('change', ()=> chip.classList.toggle('checked', input.checked));
+  });
+}
+function leerManejo(prefix){
+  const get = id => { const el = document.getElementById(id); return el ? el.value : ''; };
+  const ligamentos = {};
+  document.querySelectorAll('#'+prefix+'-manejo-lig-lista [data-lig]').forEach(box=>{
+    const lig = box.dataset.lig;
+    ligamentos[lig] = leerManejoLigUnitario(prefix, lig);
+  });
+  return {
+    menProcedimiento: get(prefix+'_manejo_men_proc'),
+    menSuturaTecnica: Array.from(document.querySelectorAll('#'+prefix+'_manejo_men_sutura input:checked')).map(i=>i.value),
+    menNumSuturas: get(prefix+'_manejo_men_num_suturas'),
+    menPatronSutura: Array.from(document.querySelectorAll('#'+prefix+'_manejo_men_patron input:checked')).map(i=>i.value),
+    menRaizTecnica: get(prefix+'_manejo_men_raiz_tecnica').trim(),
+    menCentralizacion: get(prefix+'_manejo_men_centralizacion'),
+    ligamentos,
+    condProcedimiento: get(prefix+'_manejo_cond_proc'),
+    condOsteoTipo: get(prefix+'_manejo_cond_osteo_tipo'),
+    condOsteoLoc: get(prefix+'_manejo_cond_osteo_loc'),
+    condAutoinjertoNumero: get(prefix+'_manejo_cond_autoinjerto_numero'),
+    condAutoinjertoDiametro: get(prefix+'_manejo_cond_autoinjerto_diametro').trim(),
+    fracManejo: get(prefix+'_manejo_frac_manejo'),
+    fracPlacas: get(prefix+'_manejo_frac_placas'),
+    fracPlacaPos: Array.from(document.querySelectorAll('#'+prefix+'_manejo_frac_placa_pos_lista select')).map(s=>s.value),
+    fracClavoDiametro: get(prefix+'_manejo_frac_clavo_diametro').trim(),
+    fracClavoTecnica: get(prefix+'_manejo_frac_clavo_tecnica'),
+    protesisTipo: get(prefix+'_manejo_protesis_tipo'),
+    protesisFemoral: get(prefix+'_manejo_protesis_femoral').trim(),
+    protesisTibial: get(prefix+'_manejo_protesis_tibial').trim(),
+    protesisPoliTipo: get(prefix+'_manejo_protesis_poli_tipo'),
+    protesisPoliTamano: get(prefix+'_manejo_protesis_poli_tamano').trim(),
+    protesisPfjFemoral: get(prefix+'_manejo_protesis_pfj_femoral').trim(),
+    protesisRecambioPatela: get(prefix+'_manejo_protesis_recambio_patela'),
+    pfjRecon: get(prefix+'_manejo_pfj_recon'),
+    pfjReconInjerto: get(prefix+'_manejo_pfj_recon_injerto'),
+    pfjReconFijFemoral: get(prefix+'_manejo_pfj_recon_fij_femoral'),
+    pfjReconFijPatelar: get(prefix+'_manejo_pfj_recon_fij_patelar'),
+    pfjOsteo: get(prefix+'_manejo_pfj_osteo'),
+    pfjOsteoTipo: Array.from(document.querySelectorAll('#'+prefix+'_manejo_pfj_osteo_tipo input:checked')).map(i=>i.value),
+    pfjRetinaculotomia: get(prefix+'_manejo_pfj_retinaculotomia'),
+    tendProcedimiento: get(prefix+'_manejo_tend_proc'),
+    tendTecnica: get(prefix+'_manejo_tend_tecnica'),
+    tendMarco: get(prefix+'_manejo_tend_marco'),
+    tendMarcoTipo: Array.from(document.querySelectorAll('#'+prefix+'_manejo_tend_marco_tipo input:checked')).map(i=>i.value),
+    artritisAseo: get(prefix+'_manejo_artritis_aseo'),
+    insumo: get(prefix+'_manejo_insumo').trim(),
+    insumoRef: get(prefix+'_manejo_insumo_ref').trim(),
+    otro: get(prefix+'_manejo_otro').trim()
+  };
+}
+function cargarManejo(prefix, data){
+  const m = data || {};
+  const set = (id,val) => { const el = document.getElementById(id); if(el) el.value = val || ''; };
+  set(prefix+'_manejo_men_proc', m.menProcedimiento);
+  const sutWrap = document.getElementById(prefix+'-manejo-men-sutura-wrap');
+  if(sutWrap) sutWrap.style.display = m.menProcedimiento==='Sutura meniscal' ? 'block' : 'none';
+  document.querySelectorAll('#'+prefix+'_manejo_men_sutura .chip').forEach(chip=>{
+    const input = chip.querySelector('input');
+    const checked = (m.menSuturaTecnica||[]).includes(input.value);
+    input.checked = checked;
+    chip.classList.toggle('checked', checked);
+  });
+  set(prefix+'_manejo_men_num_suturas', m.menNumSuturas);
+  document.querySelectorAll('#'+prefix+'_manejo_men_patron .chip').forEach(chip=>{
+    const input = chip.querySelector('input');
+    const checked = (m.menPatronSutura||[]).includes(input.value);
+    input.checked = checked;
+    chip.classList.toggle('checked', checked);
+  });
+  set(prefix+'_manejo_men_raiz_tecnica', m.menRaizTecnica);
+  set(prefix+'_manejo_men_centralizacion', m.menCentralizacion);
+  actualizarManejoMenRaiz(prefix);
+
+  renderManejoLigamentario(prefix);
+  if(m.ligamentos){
+    Object.keys(m.ligamentos).forEach(lig=>{
+      cargarManejoLigUnitario(prefix, lig, m.ligamentos[lig]);
+    });
+  }
+
+  set(prefix+'_manejo_cond_proc', m.condProcedimiento);
+  set(prefix+'_manejo_cond_osteo_tipo', m.condOsteoTipo);
+  set(prefix+'_manejo_cond_osteo_loc', m.condOsteoLoc);
+  set(prefix+'_manejo_cond_autoinjerto_numero', m.condAutoinjertoNumero);
+  set(prefix+'_manejo_cond_autoinjerto_diametro', m.condAutoinjertoDiametro);
+  const condOsteoWrap = document.getElementById(prefix+'_manejo_cond_osteo_wrap');
+  if(condOsteoWrap) condOsteoWrap.style.display = m.condProcedimiento==='Osteotomía' ? 'grid' : 'none';
+  const condAutoWrap = document.getElementById(prefix+'_manejo_cond_autoinjerto_wrap');
+  if(condAutoWrap) condAutoWrap.style.display = m.condProcedimiento==='Autoinjerto osteocondral (mosaicoplastia)' ? 'grid' : 'none';
+  set(prefix+'_manejo_frac_manejo', m.fracManejo);
+  set(prefix+'_manejo_frac_placas', m.fracPlacas);
+  set(prefix+'_manejo_frac_clavo_diametro', m.fracClavoDiametro);
+  set(prefix+'_manejo_frac_clavo_tecnica', m.fracClavoTecnica);
+  const clavoWrap = document.getElementById(prefix+'_manejo_frac_clavo_wrap');
+  if(clavoWrap) clavoWrap.style.display = m.fracManejo==='Clavo endomedular' ? 'grid' : 'none';
+  const placaPosWrap = document.getElementById(prefix+'_manejo_frac_placa_pos_wrap');
+  if(placaPosWrap) placaPosWrap.style.display = (m.fracPlacas && Number(m.fracPlacas) > 0) ? 'block' : 'none';
+  renderPosicionesPlaca(prefix, m.fracPlacaPos);
+
+  set(prefix+'_manejo_protesis_tipo', m.protesisTipo);
+  set(prefix+'_manejo_protesis_femoral', m.protesisFemoral);
+  set(prefix+'_manejo_protesis_tibial', m.protesisTibial);
+  set(prefix+'_manejo_protesis_poli_tipo', m.protesisPoliTipo);
+  set(prefix+'_manejo_protesis_poli_tamano', m.protesisPoliTamano);
+  set(prefix+'_manejo_protesis_pfj_femoral', m.protesisPfjFemoral);
+  set(prefix+'_manejo_protesis_recambio_patela', m.protesisRecambioPatela);
+  const protTipoEl = document.getElementById(prefix+'_manejo_protesis_tipo');
+  if(protTipoEl){
+    const completa = protTipoEl.value==='Prótesis total' || protTipoEl.value==='Prótesis parcial / unicompartimental';
+    const pfjSel = protTipoEl.value==='Prótesis patelofemoral';
+    const esTotal = protTipoEl.value==='Prótesis total';
+    const completaWrap = document.getElementById(prefix+'_manejo_protesis_completa_wrap');
+    const pfjWrap = document.getElementById(prefix+'_manejo_protesis_pfj_wrap');
+    const recambioWrap = document.getElementById(prefix+'_manejo_protesis_recambio_patela_wrap');
+    if(completaWrap) completaWrap.style.display = completa ? 'grid' : 'none';
+    if(pfjWrap) pfjWrap.style.display = pfjSel ? 'block' : 'none';
+    if(recambioWrap) recambioWrap.style.display = esTotal ? 'block' : 'none';
+  }
+
+  set(prefix+'_manejo_pfj_recon', m.pfjRecon);
+  set(prefix+'_manejo_pfj_recon_injerto', m.pfjReconInjerto);
+  set(prefix+'_manejo_pfj_recon_fij_femoral', m.pfjReconFijFemoral);
+  set(prefix+'_manejo_pfj_recon_fij_patelar', m.pfjReconFijPatelar);
+  const pfjReconDetalleWrap = document.getElementById(prefix+'_manejo_pfj_recon_detalle_wrap');
+  if(pfjReconDetalleWrap) pfjReconDetalleWrap.style.display = m.pfjRecon==='Sí' ? 'grid' : 'none';
+  set(prefix+'_manejo_pfj_osteo', m.pfjOsteo);
+  const osteoWrap = document.getElementById(prefix+'_manejo_pfj_osteo_tipo_wrap');
+  if(osteoWrap) osteoWrap.style.display = m.pfjOsteo==='Sí' ? 'block' : 'none';
+  document.querySelectorAll('#'+prefix+'_manejo_pfj_osteo_tipo .chip').forEach(chip=>{
+    const input = chip.querySelector('input');
+    const checked = (m.pfjOsteoTipo||[]).includes(input.value);
+    input.checked = checked;
+    chip.classList.toggle('checked', checked);
+  });
+  set(prefix+'_manejo_pfj_retinaculotomia', m.pfjRetinaculotomia);
+
+  set(prefix+'_manejo_tend_proc', m.tendProcedimiento);
+  set(prefix+'_manejo_tend_tecnica', m.tendTecnica);
+  set(prefix+'_manejo_tend_marco', m.tendMarco);
+  const tendMarcoWrap = document.getElementById(prefix+'_manejo_tend_marco_tipo_wrap');
+  if(tendMarcoWrap) tendMarcoWrap.style.display = m.tendMarco==='Sí' ? 'block' : 'none';
+  document.querySelectorAll('#'+prefix+'_manejo_tend_marco_tipo .chip').forEach(chip=>{
+    const input = chip.querySelector('input');
+    const checked = (m.tendMarcoTipo||[]).includes(input.value);
+    input.checked = checked;
+    chip.classList.toggle('checked', checked);
+  });
+  set(prefix+'_manejo_artritis_aseo', m.artritisAseo);
+
+  set(prefix+'_manejo_insumo', m.insumo);
+  set(prefix+'_manejo_insumo_ref', m.insumoRef);
+  set(prefix+'_manejo_otro', m.otro);
+}
+function textoManejo(m){
+  if(!m) return '';
+  const partes = [];
+  if(m.menProcedimiento){
+    const partesMen = [m.menProcedimiento + (m.menSuturaTecnica && m.menSuturaTecnica.length ? ' ('+m.menSuturaTecnica.join(' + ')+')' : '')];
+    if(m.menNumSuturas) partesMen.push(m.menNumSuturas+' sutura(s)');
+    if(m.menPatronSutura && m.menPatronSutura.length) partesMen.push('Patrón: '+m.menPatronSutura.join(' + '));
+    if(m.menRaizTecnica) partesMen.push('Raíz: '+m.menRaizTecnica);
+    if(m.menCentralizacion) partesMen.push('Centralización: '+m.menCentralizacion);
+    partes.push(partesMen.join(' · '));
+  }
+  if(m.ligamentos){
+    Object.keys(m.ligamentos).forEach(lig=>{
+      const t = textoManejoLig(lig, m.ligamentos[lig]);
+      if(t) partes.push(t);
+    });
+  }
+  if(m.condProcedimiento){
+    let condTxt = m.condProcedimiento;
+    if(m.condProcedimiento==='Osteotomía' && (m.condOsteoTipo || m.condOsteoLoc)){
+      condTxt += ' ('+[m.condOsteoTipo, m.condOsteoLoc].filter(Boolean).join(' · ')+')';
+    }else if(m.condProcedimiento==='Autoinjerto osteocondral (mosaicoplastia)' && (m.condAutoinjertoNumero || m.condAutoinjertoDiametro)){
+      condTxt += ' ('+[m.condAutoinjertoNumero?(m.condAutoinjertoNumero+' autoinjerto(s)'):'', m.condAutoinjertoDiametro?('Ø '+m.condAutoinjertoDiametro):''].filter(Boolean).join(' · ')+')';
+    }
+    partes.push(condTxt);
+  }
+  if(m.fracManejo){
+    const partesFrac = [m.fracManejo];
+    if(m.fracPlacas) partesFrac.push(m.fracPlacas+' placas'+(m.fracPlacaPos && m.fracPlacaPos.filter(Boolean).length ? ' ('+m.fracPlacaPos.filter(Boolean).join(', ')+')' : ''));
+    if(m.fracClavoDiametro || m.fracClavoTecnica) partesFrac.push([m.fracClavoDiametro?('Ø '+m.fracClavoDiametro):'', m.fracClavoTecnica].filter(Boolean).join(' · '));
+    partes.push(partesFrac.join(' · '));
+  }
+  if(m.protesisTipo){
+    const partesProt = [m.protesisTipo];
+    if(m.protesisFemoral || m.protesisTibial || m.protesisPoliTipo || m.protesisPoliTamano){
+      partesProt.push(['Fem: '+(m.protesisFemoral||'—'), 'Tib: '+(m.protesisTibial||'—'), m.protesisPoliTipo, m.protesisPoliTamano].filter(Boolean).join(' · '));
+    }
+    if(m.protesisPfjFemoral) partesProt.push('Fem: '+m.protesisPfjFemoral);
+    if(m.protesisRecambioPatela) partesProt.push('Recambio de patela: '+m.protesisRecambioPatela);
+    partes.push(partesProt.join(' – '));
+  }
+  if(m.pfjRecon || m.pfjOsteo || m.pfjRetinaculotomia){
+    const partesPfj = [];
+    if(m.pfjRecon){
+      let reconTxt = 'Reconstrucción MPFL: '+m.pfjRecon;
+      if(m.pfjRecon==='Sí'){
+        const detalleRecon = [m.pfjReconInjerto, m.pfjReconFijFemoral?('Fij.fem: '+m.pfjReconFijFemoral):'', m.pfjReconFijPatelar?('Fij.pat: '+m.pfjReconFijPatelar):''].filter(Boolean).join(' · ');
+        if(detalleRecon) reconTxt += ' ('+detalleRecon+')';
+      }
+      partesPfj.push(reconTxt);
+    }
+    if(m.pfjOsteo) partesPfj.push('Osteotomía: '+m.pfjOsteo + (m.pfjOsteoTipo && m.pfjOsteoTipo.length ? ' ('+m.pfjOsteoTipo.join(' + ')+')' : ''));
+    if(m.pfjRetinaculotomia) partesPfj.push('Retinaculotomía: '+m.pfjRetinaculotomia);
+    partes.push(partesPfj.join(' · '));
+  }
+  if(m.tendProcedimiento){
+    const partesTend = [m.tendProcedimiento];
+    if(m.tendTecnica) partesTend.push(m.tendTecnica);
+    if(m.tendMarco==='Sí') partesTend.push('Marco de refuerzo'+(m.tendMarcoTipo && m.tendMarcoTipo.length ? ' ('+m.tendMarcoTipo.join(' + ')+')' : ''));
+    else if(m.tendMarco==='No') partesTend.push('Sin marco de refuerzo');
+    partes.push(partesTend.join(' · '));
+  }
+  if(m.artritisAseo) partes.push(m.artritisAseo);
+  if(m.insumo || m.insumoRef) partes.push('Insumo: '+[m.insumo, m.insumoRef].filter(Boolean).join(' - '));
+  if(m.otro) partes.push(m.otro);
+  return partes.join(' / ');
+}
+/* ---------- Almacenamiento (Google Sheets vía Apps Script) ---------- */
+/* Pega aquí la URL de tu Web App de Apps Script y la misma clave que pusiste en el backend (ver instrucciones adjuntas). */
+const API_URL = 'https://script.google.com/macros/s/AKfycbxve0XdxYNshKnheHl1eZq8OTnsUl8b_83mPghWHLCiY1yVuxRYu1cbwnROZQreZ77LtA/exec';
+const API_KEY = 'rodilla123';
+function apiConfigurada(){
+  return API_URL && !API_URL.includes('PEGA_AQUI');
+}
+async function cargarDatos(){
+  if(!apiConfigurada()){
+    alert('Falta configurar la conexión con la base de datos (API_URL) en el archivo. Revisa las instrucciones de configuración.');
+    pacientes = [];
+    renderTabla();
+    return;
+  }
+  try{
+    const res = await fetch(API_URL + '?key=' + encodeURIComponent(API_KEY), { method: 'GET' });
+    const data = await res.json();
+    if(!data || !data.ok) throw new Error((data && data.error) || 'Error al cargar');
+    pacientes = Array.isArray(data.registros) ? data.registros : [];
+  }catch(e){
+    console.error('Error al cargar datos', e);
+    alert('No se pudieron cargar los registros. Revisa tu conexión o la configuración del backend.');
+    pacientes = [];
+  }
+  renderTabla();
+}
+async function guardarRegistroRemoto(registro){
+  const res = await fetch(API_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify({ action: 'guardar', registro, key: API_KEY })
+  });
+  const data = await res.json();
+  if(!data || !data.ok) throw new Error((data && data.error) || 'Error al guardar');
+}
+async function eliminarRegistroRemoto(id){
+  const res = await fetch(API_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify({ action: 'eliminar', id, key: API_KEY })
+  });
+  const data = await res.json();
+  if(!data || !data.ok) throw new Error((data && data.error) || 'Error al eliminar');
+}
+/* ---------- Días desde la lesión ---------- */
+function calcularDias(){
+  const lesion = document.getElementById('f_fecha_lesion').value;
+  const cirugia = document.getElementById('f_fecha_cirugia').value;
+  if(lesion && cirugia){
+    const d1 = new Date(lesion);
+    const d2 = new Date(cirugia);
+    const diff = Math.round((d2 - d1) / (1000*60*60*24));
+    if(diff >= 0){
+      document.getElementById('f_dias').value = diff;
+    }
+  }
+}
+document.getElementById('f_fecha_lesion').addEventListener('change', calcularDias);
+document.getElementById('f_fecha_cirugia').addEventListener('change', calcularDias);
+/* ---------- Antecedentes quirúrgicos previos ---------- */
+document.getElementById('f_antecedentes_qx').addEventListener('change', function(){
+  document.getElementById('antecedentes-detalle-wrap').style.display = this.value==='Sí' ? 'block' : 'none';
+});
+/* ---------- Chips ---------- */
+function activarChips(containerId){
+  document.querySelectorAll('#'+containerId+' .chip').forEach(chip=>{
+    const input = chip.querySelector('input');
+    input.addEventListener('change', ()=> chip.classList.toggle('checked', input.checked));
+  });
+}
+activarChips('f_imagenes');
+/* ---------- Diagnósticos secundarios (repetibles, sin límite) ---------- */
+function contarDxSecundarios(){
+  return document.querySelectorAll('.dx-secundario-block').length;
+}
+function nuevoPrefijoDxSec(){
+  return 'dxsec' + Date.now() + Math.floor(Math.random()*1000);
+}
+function renumerarDxSecundarios(){
+  document.querySelectorAll('.dx-secundario-block').forEach((block,i)=>{
+    const span = block.querySelector('.dxsec-numero');
+    if(span) span.textContent = (i+2);
+  });
+}
+function agregarDxSecundario(dxData, manejoData){
+  const prefix = nuevoPrefijoDxSec();
+  const numero = contarDxSecundarios() + 2;
+  const div = document.createElement('div');
+  div.className = 'block-box dx-secundario-block';
+  div.dataset.prefix = prefix;
+  div.innerHTML = `
+    <button type="button" class="btn-ghost btn-quitar" onclick="quitarDxSecundario('${prefix}')">Quitar</button>
+    <label style="display:block;margin-bottom:10px;">Diagnóstico secundario <span class="dxsec-numero">${numero}</span></label>
+    <div class="dx-wrap" id="${prefix}-container"></div>
+    <div class="field full" style="margin-top:14px;">
+      <label>Manejo quirúrgico específico <span style="font-weight:400;color:var(--ink-soft);">(este diagnóstico secundario)</span></label>
+      <div id="manejo-${prefix}-container"></div>
+    </div>
+  `;
+  document.getElementById('dx-secundarios-container').appendChild(div);
+  document.getElementById(prefix+'-container').innerHTML = plantillaDx(prefix);
+  inicializarBloqueDiagnostico(prefix);
+  document.getElementById('manejo-'+prefix+'-container').innerHTML = plantillaManejo(prefix);
+  inicializarManejo(prefix);
+  if(dxData) cargarBloqueDx(prefix, dxData);
+  if(manejoData) cargarManejo(prefix, manejoData);
+  actualizarManejo(prefix);
+  return prefix;
+}
+function quitarDxSecundario(prefix){
+  const block = document.querySelector('.dx-secundario-block[data-prefix="'+prefix+'"]');
+  if(block) block.remove();
+  renumerarDxSecundarios();
+}
+function limpiarDxSecundarios(){
+  document.getElementById('dx-secundarios-container').innerHTML = '';
+}
+function leerDxSecundarios(){
+  return Array.from(document.querySelectorAll('.dx-secundario-block')).map(block=>{
+    const prefix = block.dataset.prefix;
+    const dx = leerBloqueDx(prefix);
+    if(!dx) return null;
+    return { dx, manejo: leerManejo(prefix) };
+  }).filter(Boolean);
+}
+function normalizarDxSecundarios(p){
+  if(Array.isArray(p.dxSecundarios)) return p.dxSecundarios;
+  if(p.dx2 && p.dx2.categoria) return [{ dx: p.dx2, manejo: p.manejo2 || null }];
+  return [];
+}
+document.getElementById('btn-agregar-dxsec').addEventListener('click', ()=>{
+  agregarDxSecundario();
+});
+/* ---------- Cirugías adicionales (repetibles, máx. 2) ---------- */
+function contarBloquesCirugia(){ return document.querySelectorAll('.extra-cirugia-block').length; }
+function actualizarBotonAgregar(){
+  document.getElementById('btn-agregar-cirugia').style.display = contarBloquesCirugia()>=2 ? 'none' : 'inline-block';
+}
+function agregarBloqueCirugia(data={}){
+  if(contarBloquesCirugia()>=2) return;
+  const uid = 'b'+Date.now()+Math.floor(Math.random()*1000);
+  const numero = contarBloquesCirugia()+2;
+  const div = document.createElement('div');
+  div.className = 'block-box extra-cirugia-block';
+  div.dataset.uid = uid;
+  div.innerHTML = `
+    <button type="button" class="btn-ghost btn-quitar" onclick="eliminarBloqueCirugia('${uid}')">Quitar</button>
+    <div class="titulo-extra">Cirugía ${numero}</div>
+    <div class="extra-grid">
+      <div class="field">
+        <label>Fecha</label>
+        <input type="date" class="ex-fecha" value="${data.fecha||''}">
+      </div>
+      <div class="field">
+        <label>Cirugía realizada</label>
+        <input type="text" class="ex-tipo" placeholder="Ej: revisión de LCA" value="${data.tipo ? data.tipo.replace(/"/g,'&quot;') : ''}">
+      </div>
+      <div class="field">
+        <label>Técnica / notas</label>
+        <input type="text" class="ex-tecnica" placeholder="Técnica utilizada u observaciones" value="${data.tecnica ? data.tecnica.replace(/"/g,'&quot;') : ''}">
+      </div>
+    </div>
+  `;
+  document.getElementById('cirugias-extra').appendChild(div);
+  actualizarBotonAgregar();
+}
+function eliminarBloqueCirugia(uid){
+  const block = document.querySelector('.extra-cirugia-block[data-uid="'+uid+'"]');
+  if(block) block.remove();
+  renumerarBloquesCirugia();
+  actualizarBotonAgregar();
+}
+function renumerarBloquesCirugia(){
+  document.querySelectorAll('.extra-cirugia-block').forEach((block,i)=>{
+    block.querySelector('.titulo-extra').textContent = 'Cirugía ' + (i+2);
+  });
+}
+function limpiarBloquesCirugia(){
+  document.getElementById('cirugias-extra').innerHTML = '';
+  actualizarBotonAgregar();
+}
+document.getElementById('btn-agregar-cirugia').addEventListener('click', ()=>agregarBloqueCirugia());
+/* ---------- Formulario: limpiar ---------- */
+function limpiarFormulario(){
+  document.getElementById('f_apellido').value='';
+  document.getElementById('f_nombre').value='';
+  document.getElementById('f_id').value='';
+  document.getElementById('f_edad').value='';
+  document.getElementById('f_lado').value='';
+  document.getElementById('f_fecha_lesion').value='';
+  document.getElementById('f_fecha_cirugia').value='';
+  document.getElementById('f_dias').value='';
+  document.getElementById('f_acto_servicio').value='';
+  document.getElementById('f_causa_lesion').value='';
+  document.getElementById('f_antecedentes_qx').value='';
+  document.getElementById('f_antecedentes_detalle').value='';
+  document.getElementById('antecedentes-detalle-wrap').style.display='none';
+  document.getElementById('dx1-container').innerHTML = plantillaDx('dx1');
+  inicializarBloqueDiagnostico('dx1');
+  limpiarDxSecundarios();
+  document.getElementById('manejo-dx1-container').innerHTML = plantillaManejo('dx1');
+  inicializarManejo('dx1');
+  document.getElementById('f_cirujano').value='';
+  document.getElementById('f_ayudante').value='';
+  document.getElementById('f_complicacion').value='';
+  document.getElementById('f_complicacion_detalle').value='';
+  limpiarBloquesCirugia();
+  document.querySelectorAll('#f_imagenes .chip').forEach(chip=>{
+    chip.querySelector('input').checked=false;
+    chip.classList.remove('checked');
+  });
+  document.getElementById('f_control').value='';
+  document.getElementById('f_notas').value='';
+  editandoId = null;
+  document.getElementById('edit-tag').style.display='none';
+  document.getElementById('form-title').firstChild.textContent = 'Nuevo registro ';
+  document.getElementById('btn-guardar').textContent = 'Guardar registro';
+}
+document.getElementById('btn-limpiar').addEventListener('click', limpiarFormulario);
+/* ---------- Guardar ---------- */
+document.getElementById('btn-guardar').addEventListener('click', async ()=>{
+  const apellido = document.getElementById('f_apellido').value.trim();
+  const nombre = document.getElementById('f_nombre').value.trim();
+  const id = document.getElementById('f_id').value.trim();
+  const fechaCirugia = document.getElementById('f_fecha_cirugia').value;
+  const dx1 = leerBloqueDx('dx1');
+  if(!apellido || !nombre || !id || !fechaCirugia || !dx1){
+    alert('Completa los campos obligatorios: apellido, nombre, identificación, fecha de cirugía y categoría de diagnóstico principal.');
+    return;
+  }
+  const dxSecundarios = leerDxSecundarios();
+  const imagenes = Array.from(document.querySelectorAll('#f_imagenes input:checked')).map(i=>i.value);
+  const cirugiasAdicionales = Array.from(document.querySelectorAll('.extra-cirugia-block')).map(b=>({
+    fecha: b.querySelector('.ex-fecha').value,
+    tipo: b.querySelector('.ex-tipo').value.trim(),
+    tecnica: b.querySelector('.ex-tecnica').value.trim()
+  })).filter(c=>c.fecha || c.tipo || c.tecnica);
+  const manejo = leerManejo('dx1');
+  const registro = {
+    id: editandoId || ('p_' + Date.now()),
+    apellido,
+    nombre,
+    identificacion: id,
+    edad: document.getElementById('f_edad').value,
+    lado: document.getElementById('f_lado').value,
+    fechaLesion: document.getElementById('f_fecha_lesion').value,
+    fechaCirugia,
+    diasDesdeLesion: document.getElementById('f_dias').value,
+    actoServicio: document.getElementById('f_acto_servicio').value,
+    causaLesion: document.getElementById('f_causa_lesion').value,
+    antecedentesQx: document.getElementById('f_antecedentes_qx').value,
+    antecedentesDetalle: document.getElementById('f_antecedentes_detalle').value.trim(),
+    dx1,
+    dxSecundarios,
+    manejo,
+    complicacion: document.getElementById('f_complicacion').value,
+    complicacionDetalle: document.getElementById('f_complicacion_detalle').value.trim(),
+    cirujano: document.getElementById('f_cirujano').value,
+    ayudante: document.getElementById('f_ayudante').value,
+    imagenes,
+    fechaControl: document.getElementById('f_control').value,
+    notas: document.getElementById('f_notas').value.trim(),
+    cirugiasAdicionales
+  };
+  if(!apiConfigurada()){
+    alert('Falta configurar la conexión con la base de datos (API_URL) en el archivo.');
+    return;
+  }
+  try{
+    await guardarRegistroRemoto(registro);
+  }catch(e){
+    console.error('Error al guardar', e);
+    alert('No se pudo guardar el registro. Intenta nuevamente.');
+    return;
+  }
+  await cargarDatos();
+  limpiarFormulario();
+  const msg = document.getElementById('save-msg');
+  msg.classList.add('show');
+  setTimeout(()=>msg.classList.remove('show'), 1800);
+});
+/* ---------- Editar ---------- */
+function editarPaciente(id){
+  const p = pacientes.find(x=>x.id===id);
+  if(!p) return;
+  document.getElementById('f_apellido').value = p.apellido || '';
+  document.getElementById('f_nombre').value = p.nombre || '';
+  document.getElementById('f_id').value = p.identificacion || '';
+  document.getElementById('f_edad').value = p.edad || '';
+  document.getElementById('f_lado').value = p.lado || '';
+  document.getElementById('f_fecha_lesion').value = p.fechaLesion || '';
+  document.getElementById('f_fecha_cirugia').value = p.fechaCirugia || '';
+  document.getElementById('f_dias').value = p.diasDesdeLesion || '';
+  document.getElementById('f_acto_servicio').value = p.actoServicio || '';
+  document.getElementById('f_causa_lesion').value = p.causaLesion || '';
+  document.getElementById('f_antecedentes_qx').value = p.antecedentesQx || '';
+  document.getElementById('f_antecedentes_detalle').value = p.antecedentesDetalle || '';
+  document.getElementById('antecedentes-detalle-wrap').style.display = p.antecedentesQx==='Sí' ? 'block' : 'none';
+  document.getElementById('dx1-container').innerHTML = plantillaDx('dx1');
+  inicializarBloqueDiagnostico('dx1');
+  cargarBloqueDx('dx1', p.dx1);
+  document.getElementById('manejo-dx1-container').innerHTML = plantillaManejo('dx1');
+  inicializarManejo('dx1');
+  cargarManejo('dx1', p.manejo);
+  actualizarManejo('dx1');
+  limpiarDxSecundarios();
+  normalizarDxSecundarios(p).forEach(sec => agregarDxSecundario(sec.dx, sec.manejo));
+  document.getElementById('f_cirujano').value = p.cirujano || '';
+  document.getElementById('f_ayudante').value = p.ayudante || '';
+  document.getElementById('f_complicacion').value = p.complicacion || '';
+  document.getElementById('f_complicacion_detalle').value = p.complicacionDetalle || '';
+  limpiarBloquesCirugia();
+  (p.cirugiasAdicionales || []).forEach(c => agregarBloqueCirugia(c));
+  document.querySelectorAll('#f_imagenes .chip').forEach(chip=>{
+    const input = chip.querySelector('input');
+    const checked = (p.imagenes||[]).includes(input.value);
+    input.checked = checked;
+    chip.classList.toggle('checked', checked);
+  });
+  document.getElementById('f_control').value = p.fechaControl || '';
+  document.getElementById('f_notas').value = p.notas || '';
+  editandoId = id;
+  document.getElementById('edit-tag').style.display='inline-block';
+  document.getElementById('form-title').firstChild.textContent = 'Editar registro ';
+  document.getElementById('btn-guardar').textContent = 'Actualizar registro';
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+async function eliminarPaciente(id){
+  if(!confirm('¿Eliminar este registro? Esta acción no se puede deshacer.')) return;
+  try{
+    await eliminarRegistroRemoto(id);
+  }catch(e){
+    console.error('Error al eliminar', e);
+    alert('No se pudo eliminar el registro. Intenta nuevamente.');
+    return;
+  }
+  await cargarDatos();
+}
+/* ---------- Tabla ---------- */
+function renderTabla(){
+  const cont = document.getElementById('tabla-contenedor');
+  const filtro = document.getElementById('buscar').value.toLowerCase().trim();
+  const lista = pacientes.filter(p=>{
+    if(!filtro) return true;
+    return (p.nombre||'').toLowerCase().includes(filtro) || (p.apellido||'').toLowerCase().includes(filtro) || (p.identificacion||'').toLowerCase().includes(filtro);
+  });
+  document.getElementById('contador').textContent = pacientes.length + (pacientes.length===1 ? ' paciente' : ' pacientes');
+  if(lista.length===0){
+    cont.innerHTML = '<div class="empty">Aún no hay pacientes registrados. Completa el formulario para agregar el primero.</div>';
+    return;
+  }
+  let html = '<table><thead><tr><th>Paciente</th><th>ID</th><th>Diagnóstico</th><th>Manejo</th><th>Fecha cirugía</th><th>Días desde lesión</th><th>Acto de servicio</th><th></th></tr></thead><tbody>';
+  lista.forEach(p=>{
+    const nombreCompleto = [p.apellido, p.nombre].filter(Boolean).join(', ');
+    const dxTxt = textoDx(p.dx1);
+    const secundarios = normalizarDxSecundarios(p);
+    const dxSecTxt = secundarios.map((s,i)=>{
+      const t = textoDx(s.dx);
+      return t ? escapeHtml((i+2)+'.º dx: '+t) : '';
+    }).filter(Boolean).join('<br>');
+    const manejoTxt = textoManejo(p.manejo);
+    const manejoSecTxt = secundarios.map((s,i)=>{
+      const t = textoManejo(s.manejo);
+      return t ? escapeHtml((i+2)+'.º manejo: '+t) : '';
+    }).filter(Boolean).join('<br>');
+    const complicacionTxt = (p.complicacion && p.complicacion !== '') ? p.complicacion + (p.complicacionDetalle ? ' – '+p.complicacionDetalle : '') : '';
+    html += `<tr>
+      <td>${escapeHtml(nombreCompleto)}${p.lado ? '<br><span class="badge-side">'+escapeHtml(p.lado)+'</span>' : ''}</td>
+      <td class="id-mono">${escapeHtml(p.identificacion)}</td>
+      <td>${escapeHtml(dxTxt || '—')}${dxSecTxt ? '<br><span class="id-mono" style="font-size:.72rem;color:var(--ink-soft);">'+dxSecTxt+'</span>' : ''}</td>
+      <td>${escapeHtml(manejoTxt || '—')}${manejoSecTxt ? '<br><span class="id-mono" style="font-size:.72rem;color:var(--ink-soft);">'+manejoSecTxt+'</span>' : ''}${complicacionTxt ? '<br><span class="badge-side" style="background:var(--danger-soft);color:var(--danger);">'+escapeHtml(complicacionTxt)+'</span>' : ''}${(p.cirugiasAdicionales && p.cirugiasAdicionales.length) ? '<br><span class="badge-side">+'+p.cirugiasAdicionales.length+' cirugía'+(p.cirugiasAdicionales.length>1?'s':'')+'</span>' : ''}</td>
+      <td class="id-mono">${escapeHtml(p.fechaCirugia || '—')}</td>
+      <td class="id-mono">${escapeHtml(p.diasDesdeLesion || '—')}</td>
+      <td>${escapeHtml(p.actoServicio || '—')}</td>
+      <td>
+        <div class="row-actions">
+          <button class="btn-ghost" onclick="editarPaciente('${p.id}')">Editar</button>
+          <button class="btn-ghost" onclick="eliminarPaciente('${p.id}')">Eliminar</button>
+        </div>
+      </td>
+    </tr>`;
+  });
+  html += '</tbody></table>';
+  cont.innerHTML = html;
+}
+function escapeHtml(str){
+  if(str===undefined || str===null) return '';
+  return String(str).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+document.getElementById('buscar').addEventListener('input', renderTabla);
+document.getElementById('btn-actualizar').addEventListener('click', async ()=>{
+  await cargarDatos();
+});
+/* ---------- Exportar CSV ---------- */
+document.getElementById('btn-exportar').addEventListener('click', ()=>{
+  if(pacientes.length===0){
+    alert('No hay registros para exportar.');
+    return;
+  }
+  const headers = ['Apellido','Nombre','Identificación','Edad','Lado','Fecha lesión','Fecha cirugía','Días desde lesión','Lesión en acto de servicio','Causa de la lesión',
+    'Antecedentes quirúrgicos previos','Detalle antecedentes quirúrgicos',
+    'Diagnóstico principal','Diagnósticos secundarios','Manejo específico (diagnóstico principal)','Manejo específico (diagnósticos secundarios)',
+    'Complicación intraoperatoria','Cirujano','Ayudante','Imágenes disponibles','Fecha próximo control','Notas','Cirugías adicionales'];
+  const rows = pacientes.map(p=>{
+    const secundarios = normalizarDxSecundarios(p);
+    return [
+      p.apellido,p.nombre,p.identificacion,p.edad,p.lado,p.fechaLesion,p.fechaCirugia,p.diasDesdeLesion,p.actoServicio,p.causaLesion,
+      p.antecedentesQx,p.antecedentesDetalle,
+      textoDx(p.dx1),
+      secundarios.map(s=>textoDx(s.dx)).filter(Boolean).join(' | '),
+      textoManejo(p.manejo),
+      secundarios.map(s=>textoManejo(s.manejo)).filter(Boolean).join(' | '),
+      (p.complicacion ? p.complicacion + (p.complicacionDetalle ? ' - '+p.complicacionDetalle : '') : ''),
+      p.cirujano,p.ayudante,(p.imagenes||[]).join(' / '),p.fechaControl,p.notas,
+      (p.cirugiasAdicionales||[]).map(c=>[c.fecha,c.tipo,c.tecnica].filter(Boolean).join(' - ')).join(' | ')
+    ];
+  });
+  const csv = [headers, ...rows].map(row=>
+    row.map(v=>{
+      const s = (v===undefined || v===null) ? '' : String(v);
+      return '"' + s.replace(/"/g,'""') + '"';
+    }).join(',')
+  ).join('\n');
+  const blob = new Blob(['﻿'+csv], {type:'text/csv;charset=utf-8;'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'pacientes_rodilla.csv';
+  a.click();
+  URL.revokeObjectURL(url);
+});
+/* ---------- Inicio ---------- */
+document.getElementById('dx1-container').innerHTML = plantillaDx('dx1');
+inicializarBloqueDiagnostico('dx1');
+document.getElementById('manejo-dx1-container').innerHTML = plantillaManejo('dx1');
+inicializarManejo('dx1');
+cargarDatos();
+</script>
+</body>
+</html>
