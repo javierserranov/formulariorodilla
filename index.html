@@ -2178,6 +2178,12 @@ document.getElementById('btn-guardar').addEventListener('click', async ()=>{
     alert('Completa los campos obligatorios: apellido, nombre, identificación, fecha de cirugía y categoría de diagnóstico principal.');
     return;
   }
+  const idNormalizado = id.toLowerCase();
+  const duplicado = pacientes.find(p => (p.identificacion||'').trim().toLowerCase() === idNormalizado && p.id !== editandoId);
+  if(duplicado){
+    const seguir = confirm('Ya existe un paciente registrado con el RUT/identificación "'+id+'" ('+(duplicado.nombre||'')+' '+(duplicado.apellido||'')+'). ¿Deseas guardar de todos modos como un registro nuevo?');
+    if(!seguir) return;
+  }
   const dxSecundarios = leerDxSecundarios();
   const imagenes = Array.from(document.querySelectorAll('#f_imagenes input:checked')).map(i=>i.value);
   const cirugiasAdicionales = Array.from(document.querySelectorAll('.extra-cirugia-block')).map(b=>({
