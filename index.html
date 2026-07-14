@@ -415,12 +415,17 @@
   <div class="card">
     <h2>Pacientes registrados</h2>
     <div class="toolbar">
-      <input type="text" id="buscar" placeholder="Buscar por nombre o identificación">
-      <button class="btn-ghost" id="btn-actualizar">Actualizar</button>
-      <button class="btn-ghost" id="btn-exportar">Exportar CSV</button>
-      <span class="count" id="contador">0 pacientes</span>
+      <button class="btn-ghost" id="btn-toggle-pacientes">Ver pacientes registrados</button>
     </div>
-    <div id="tabla-contenedor"></div>
+    <div id="pacientes-panel" style="display:none;">
+      <div class="toolbar">
+        <input type="text" id="buscar" placeholder="Buscar por nombre o identificación">
+        <button class="btn-ghost" id="btn-actualizar">Actualizar</button>
+        <button class="btn-ghost" id="btn-exportar">Exportar CSV</button>
+        <span class="count" id="contador">0 pacientes</span>
+      </div>
+      <div id="tabla-contenedor"></div>
+    </div>
   </div>
 </div>
 <script>
@@ -2346,6 +2351,13 @@ function escapeHtml(str){
 document.getElementById('buscar').addEventListener('input', renderTabla);
 document.getElementById('btn-actualizar').addEventListener('click', async ()=>{
   await cargarDatos();
+});
+document.getElementById('btn-toggle-pacientes').addEventListener('click', ()=>{
+  const panel = document.getElementById('pacientes-panel');
+  const btn = document.getElementById('btn-toggle-pacientes');
+  const visible = panel.style.display !== 'none';
+  panel.style.display = visible ? 'none' : 'block';
+  btn.textContent = visible ? 'Ver pacientes registrados' : 'Ocultar pacientes registrados';
 });
 /* ---------- Exportar CSV ---------- */
 document.getElementById('btn-exportar').addEventListener('click', ()=>{
