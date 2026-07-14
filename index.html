@@ -521,6 +521,7 @@ function plantillaDx(prefix){
           <option>Patela</option>
           <option>Tibia proximal</option>
           <option>Tibia diafisiaria</option>
+          <option>Espinas tibiales</option>
         </select>
       </div>
       <div class="field" id="${prefix}_frac_schatzker_wrap" style="display:none;margin-top:8px;">
@@ -538,6 +539,61 @@ function plantillaDx(prefix){
       <div class="field" id="${prefix}_frac_ao_wrap" style="display:none;margin-top:8px;">
         <label>Clasificación AO</label>
         <input type="text" id="${prefix}_frac_ao" placeholder="Ej: 33-A1, 32-B2...">
+      </div>
+      <div class="extra-grid-2" id="${prefix}_frac_espinas_wrap" style="display:none;margin-top:8px;">
+        <div class="field">
+          <label>Clasificación de Meyers-McKeever</label>
+          <select id="${prefix}_frac_espinas_meyers">
+            <option value="">Seleccionar</option>
+            <option>Tipo I</option>
+            <option>Tipo II</option>
+            <option>Tipo III</option>
+            <option>Tipo IV</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Clasificación de Green-Tuca</label>
+          <select id="${prefix}_frac_espinas_green">
+            <option value="">Seleccionar</option>
+            <option>Grado 1</option>
+            <option>Grado 2</option>
+            <option>Grado 3</option>
+          </select>
+        </div>
+      </div>
+      <div class="extra-grid" style="margin-top:8px;">
+        <div class="field">
+          <label>¿Fractura expuesta?</label>
+          <select id="${prefix}_frac_expuesta">
+            <option value="">Seleccionar</option>
+            <option value="Sí">Sí</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>¿Lesión vascular?</label>
+          <select id="${prefix}_frac_lesion_vascular">
+            <option value="">Seleccionar</option>
+            <option value="Sí">Sí</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>¿Lesión neurológica?</label>
+          <select id="${prefix}_frac_lesion_neurologica">
+            <option value="">Seleccionar</option>
+            <option value="Sí">Sí</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+      </div>
+      <div class="field" style="margin-top:8px;">
+        <label>¿Lesión de aparato extensor?</label>
+        <select id="${prefix}_frac_lesion_extensor">
+          <option value="">Seleccionar</option>
+          <option value="Sí">Sí</option>
+          <option value="No">No</option>
+        </select>
       </div>
     </div>
     <div class="dx-sub" data-cat="Lesión tendínea" style="display:none;">
@@ -647,8 +703,11 @@ function inicializarBloqueDiagnostico(prefix){
   if(fracLoc){
     fracLoc.addEventListener('change', ()=>{
       const esTibiaProx = fracLoc.value === 'Tibia proximal';
+      const esEspinas = fracLoc.value === 'Espinas tibiales';
       document.getElementById(prefix+'_frac_schatzker_wrap').style.display = esTibiaProx ? 'block':'none';
-      document.getElementById(prefix+'_frac_ao_wrap').style.display = (fracLoc.value && !esTibiaProx) ? 'block':'none';
+      document.getElementById(prefix+'_frac_espinas_wrap').style.display = esEspinas ? 'grid':'none';
+      document.getElementById(prefix+'_frac_ao_wrap').style.display = (fracLoc.value && !esTibiaProx && !esEspinas) ? 'block':'none';
+      actualizarManejoFracEspinas(prefix);
     });
   }
   const pfjAltura = document.getElementById(prefix+'_pfj_altura');
@@ -769,6 +828,12 @@ function leerBloqueDx(prefix){
     obj.fracLocalizacion = document.getElementById(prefix+'_frac_localizacion').value;
     obj.fracSchatzker = document.getElementById(prefix+'_frac_schatzker').value;
     obj.fracAO = document.getElementById(prefix+'_frac_ao').value.trim();
+    obj.fracEspinasMeyers = document.getElementById(prefix+'_frac_espinas_meyers').value;
+    obj.fracEspinasGreen = document.getElementById(prefix+'_frac_espinas_green').value;
+    obj.fracExpuesta = document.getElementById(prefix+'_frac_expuesta').value;
+    obj.fracLesionVascular = document.getElementById(prefix+'_frac_lesion_vascular').value;
+    obj.fracLesionNeurologica = document.getElementById(prefix+'_frac_lesion_neurologica').value;
+    obj.fracLesionExtensor = document.getElementById(prefix+'_frac_lesion_extensor').value;
   }else if(categoria==='Inestabilidad patelofemoral'){
     obj.pfjAltura = document.getElementById(prefix+'_pfj_altura').value;
     obj.pfjCD = document.getElementById(prefix+'_pfj_cd').value.trim();
@@ -810,10 +875,19 @@ function cargarBloqueDx(prefix, data){
   }else if(data.categoria==='Fractura'){
     document.getElementById(prefix+'_frac_localizacion').value = data.fracLocalizacion || '';
     const esTibiaProx = data.fracLocalizacion === 'Tibia proximal';
+    const esEspinas = data.fracLocalizacion === 'Espinas tibiales';
     document.getElementById(prefix+'_frac_schatzker_wrap').style.display = esTibiaProx ? 'block':'none';
     document.getElementById(prefix+'_frac_schatzker').value = data.fracSchatzker || '';
-    document.getElementById(prefix+'_frac_ao_wrap').style.display = (data.fracLocalizacion && !esTibiaProx) ? 'block':'none';
+    document.getElementById(prefix+'_frac_espinas_wrap').style.display = esEspinas ? 'grid':'none';
+    document.getElementById(prefix+'_frac_espinas_meyers').value = data.fracEspinasMeyers || '';
+    document.getElementById(prefix+'_frac_espinas_green').value = data.fracEspinasGreen || '';
+    document.getElementById(prefix+'_frac_ao_wrap').style.display = (data.fracLocalizacion && !esTibiaProx && !esEspinas) ? 'block':'none';
     document.getElementById(prefix+'_frac_ao').value = data.fracAO || '';
+    document.getElementById(prefix+'_frac_expuesta').value = data.fracExpuesta || '';
+    document.getElementById(prefix+'_frac_lesion_vascular').value = data.fracLesionVascular || '';
+    document.getElementById(prefix+'_frac_lesion_neurologica').value = data.fracLesionNeurologica || '';
+    document.getElementById(prefix+'_frac_lesion_extensor').value = data.fracLesionExtensor || '';
+    actualizarManejoFracEspinas(prefix);
   }else if(data.categoria==='Inestabilidad patelofemoral'){
     document.getElementById(prefix+'_pfj_altura').value = data.pfjAltura || '';
     document.getElementById(prefix+'_pfj_cd_wrap').style.display = data.pfjAltura==='Patela alta' ? 'block':'none';
@@ -846,7 +920,18 @@ function textoDx(dx){
       partes.push('Asociada: '+((dx.ligMulti||[]).join(' + ')||'—'));
     }
   }else if(dx.categoria==='Fractura'){
-    partes.push([dx.fracLocalizacion, dx.fracSchatzker, dx.fracAO].filter(Boolean).join(' · '));
+    const fracLesiones = [
+      dx.fracExpuesta==='Sí' ? 'Expuesta' : '',
+      dx.fracLesionVascular==='Sí' ? 'Lesión vascular' : '',
+      dx.fracLesionNeurologica==='Sí' ? 'Lesión neurológica' : '',
+      dx.fracLesionExtensor==='Sí' ? 'Lesión aparato extensor' : ''
+    ].filter(Boolean).join(' + ');
+    partes.push([
+      dx.fracLocalizacion, dx.fracSchatzker, dx.fracAO,
+      dx.fracEspinasMeyers ? 'Meyers-McKeever: '+dx.fracEspinasMeyers : '',
+      dx.fracEspinasGreen ? 'Green-Tuca: '+dx.fracEspinasGreen : '',
+      fracLesiones
+    ].filter(Boolean).join(' · '));
   }else if(dx.categoria==='Inestabilidad patelofemoral'){
     const alturaTxt = dx.pfjAltura ? dx.pfjAltura + (dx.pfjAltura==='Patela alta' && dx.pfjCD ? ' (CD '+dx.pfjCD+')' : '') : '';
     const ttTgTxt = dx.pfjTtTg ? 'TT-TG '+dx.pfjTtTg+' mm'+(dx.pfjTtTgMetodo ? ' ('+dx.pfjTtTgMetodo+')' : '') : '';
@@ -1331,6 +1416,15 @@ function plantillaManejo(prefix){
         <label>Posición de la(s) placa(s)</label>
         <div id="${prefix}_manejo_frac_placa_pos_lista"></div>
       </div>
+      <div class="field" id="${prefix}_manejo_frac_espinas_wrap" style="display:none;margin-top:8px;">
+        <label>Fijación de espinas tibiales</label>
+        <select id="${prefix}_manejo_frac_espinas_fijacion">
+          <option value="">Seleccionar</option>
+          <option>Sutura</option>
+          <option>Tornillo</option>
+          <option>Otro</option>
+        </select>
+      </div>
     </div>
     <div class="block-box" id="${prefix}-manejo-tendinea" style="display:none;">
       <div class="titulo-extra">Manejo de lesión tendínea</div>
@@ -1515,6 +1609,11 @@ function actualizarManejoMenRaiz(prefix){
   const wrap = document.getElementById(prefix+'-manejo-men-raiz-wrap');
   if(wrap) wrap.style.display = (tipoEl && tipoEl.value==='Raíz') ? 'grid' : 'none';
 }
+function actualizarManejoFracEspinas(prefix){
+  const locEl = document.getElementById(prefix+'_frac_localizacion');
+  const wrap = document.getElementById(prefix+'_manejo_frac_espinas_wrap');
+  if(wrap) wrap.style.display = (locEl && locEl.value==='Espinas tibiales') ? 'block' : 'none';
+}
 function actualizarManejo(prefix){
   const cont = document.getElementById('manejo-'+prefix+'-container');
   if(!cont) return;
@@ -1522,6 +1621,7 @@ function actualizarManejo(prefix){
   const cat = catEl ? catEl.value : '';
   cont.querySelectorAll('.block-box[id^="'+prefix+'-manejo-"]').forEach(b=>b.style.display='none');
   actualizarManejoMenRaiz(prefix);
+  actualizarManejoFracEspinas(prefix);
   const mapa = {
     'Lesión meniscal': prefix+'-manejo-meniscal',
     'Lesión ligamentaria': prefix+'-manejo-ligamentaria',
@@ -1650,6 +1750,7 @@ function leerManejo(prefix){
     fracPlacaPos: Array.from(document.querySelectorAll('#'+prefix+'_manejo_frac_placa_pos_lista select')).map(s=>s.value),
     fracClavoDiametro: get(prefix+'_manejo_frac_clavo_diametro').trim(),
     fracClavoTecnica: get(prefix+'_manejo_frac_clavo_tecnica'),
+    fracEspinasFijacion: get(prefix+'_manejo_frac_espinas_fijacion'),
     protesisTipo: get(prefix+'_manejo_protesis_tipo'),
     protesisFemoral: get(prefix+'_manejo_protesis_femoral').trim(),
     protesisTibial: get(prefix+'_manejo_protesis_tibial').trim(),
@@ -1717,6 +1818,8 @@ function cargarManejo(prefix, data){
   set(prefix+'_manejo_frac_placas', m.fracPlacas);
   set(prefix+'_manejo_frac_clavo_diametro', m.fracClavoDiametro);
   set(prefix+'_manejo_frac_clavo_tecnica', m.fracClavoTecnica);
+  set(prefix+'_manejo_frac_espinas_fijacion', m.fracEspinasFijacion);
+  actualizarManejoFracEspinas(prefix);
   const clavoWrap = document.getElementById(prefix+'_manejo_frac_clavo_wrap');
   if(clavoWrap) clavoWrap.style.display = m.fracManejo==='Clavo endomedular' ? 'grid' : 'none';
   const placaPosWrap = document.getElementById(prefix+'_manejo_frac_placa_pos_wrap');
@@ -1803,10 +1906,11 @@ function textoManejo(m){
     }
     partes.push(condTxt);
   }
-  if(m.fracManejo){
-    const partesFrac = [m.fracManejo];
+  if(m.fracManejo || m.fracEspinasFijacion){
+    const partesFrac = [m.fracManejo].filter(Boolean);
     if(m.fracPlacas) partesFrac.push(m.fracPlacas+' placas'+(m.fracPlacaPos && m.fracPlacaPos.filter(Boolean).length ? ' ('+m.fracPlacaPos.filter(Boolean).join(', ')+')' : ''));
     if(m.fracClavoDiametro || m.fracClavoTecnica) partesFrac.push([m.fracClavoDiametro?('Ø '+m.fracClavoDiametro):'', m.fracClavoTecnica].filter(Boolean).join(' · '));
+    if(m.fracEspinasFijacion) partesFrac.push('Fijación espinas: '+m.fracEspinasFijacion);
     partes.push(partesFrac.join(' · '));
   }
   if(m.protesisTipo){
