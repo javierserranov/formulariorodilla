@@ -140,6 +140,16 @@
   .btn-ghost:hover{background:#F0F1EC;}
   .save-msg{font-size:.82rem;color:var(--brand);opacity:0;transition:opacity .25s;}
   .save-msg.show{opacity:1;}
+  .save-banner{
+    display:none;align-items:center;gap:10px;margin:0 0 1.2rem;padding:14px 18px;
+    background:#E7F3EC;border:1px solid #A9CDB6;border-radius:10px;color:#1E5C3A;
+    font-size:.92rem;font-weight:500;
+  }
+  .save-banner.show{display:flex;}
+  .save-banner .dot{
+    flex-shrink:0;width:22px;height:22px;border-radius:50%;background:#2F8A55;color:#fff;
+    display:flex;align-items:center;justify-content:center;font-size:.8rem;
+  }
   .toolbar{display:flex;gap:10px;align-items:center;margin-bottom:1rem;flex-wrap:wrap;}
   .toolbar input[type=text]{max-width:280px;}
   .count{font-size:.8rem;color:var(--ink-soft);margin-left:auto;font-family:var(--font-mono);}
@@ -244,6 +254,7 @@
     </div>
   </div>
   <div class="card">
+    <div class="save-banner" id="save-banner"><span class="dot">✓</span><span id="save-banner-text">Registro guardado correctamente.</span></div>
     <h2 id="form-title">Nuevo registro <span class="tag" id="edit-tag" style="display:none;">editando</span></h2>
     <div class="section-label key">Datos del paciente</div>
     <div class="grid">
@@ -2228,18 +2239,38 @@ document.getElementById('btn-guardar').addEventListener('click', async ()=>{
     alert('Falta configurar la conexión con la base de datos (API_URL) en el archivo.');
     return;
   }
+  const btnGuardar = document.getElementById('btn-guardar');
+  const textoOriginalBtn = btnGuardar.textContent;
+  btnGuardar.disabled = true;
+  btnGuardar.style.opacity = '.6';
+  btnGuardar.style.cursor = 'not-allowed';
+  btnGuardar.textContent = 'Guardando...';
   try{
     await guardarRegistroRemoto(registro);
   }catch(e){
     console.error('Error al guardar', e);
     alert('No se pudo guardar el registro. Intenta nuevamente.');
+    btnGuardar.disabled = false;
+    btnGuardar.style.opacity = '';
+    btnGuardar.style.cursor = '';
+    btnGuardar.textContent = textoOriginalBtn;
     return;
   }
   await cargarDatos();
   limpiarFormulario();
+  btnGuardar.disabled = false;
+  btnGuardar.style.opacity = '';
+  btnGuardar.style.cursor = '';
   const msg = document.getElementById('save-msg');
   msg.classList.add('show');
   setTimeout(()=>msg.classList.remove('show'), 1800);
+  const banner = document.getElementById('save-banner');
+  const bannerText = document.getElementById('save-banner-text');
+  bannerText.textContent = 'Registro de '+nombre+' '+apellido+' guardado correctamente. Ya puedes cerrar o cargar el siguiente paciente.';
+  banner.classList.add('show');
+  window.scrollTo({top:0, behavior:'smooth'});
+  clearTimeout(window._saveBannerTimeout);
+  window._saveBannerTimeout = setTimeout(()=>banner.classList.remove('show'), 6000);
 });
 /* ---------- Editar ---------- */
 function editarPaciente(id){
